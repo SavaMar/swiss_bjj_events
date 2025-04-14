@@ -1,17 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "../../../../../lib/supabase";
 import { Event, SWISS_CANTON_NAMES } from "../../../../types/event";
 import { Session } from "@supabase/supabase-js";
 import { format, parse, parseISO, isValid } from "date-fns";
 
-interface PageProps {
-  params: { id: string };
-}
-
-export default function EditEventPage({ params }: PageProps) {
+export default function EditEventPage({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { id } = params;
 
@@ -36,7 +32,7 @@ export default function EditEventPage({ params }: PageProps) {
   const [error, setError] = useState<string | null>(null);
 
   // Helper function to parse date strings in various formats
-  const parseDate = (dateStr: string) => {
+  const parseDate = useCallback((dateStr: string) => {
     try {
       // Try ISO format first (YYYY-MM-DD)
       let date = parseISO(dateStr);
@@ -56,48 +52,25 @@ export default function EditEventPage({ params }: PageProps) {
       console.error(`Error parsing date: ${dateStr}`, error);
       return null;
     }
-  };
+  }, []);
 
   // Helper function to convert a date string to YYYY-MM-DD format for input fields
-  const formatDateForInput = (dateStr: string) => {
-    try {
-      const date = parseDate(dateStr);
-      if (!date) return "";
-      return format(date, "yyyy-MM-dd");
-    } catch (error) {
-      console.error(`Error formatting date for input: ${dateStr}`, error);
-      return "";
-    }
-  };
-
-  useEffect(() => {
-    // Check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (!session) {
-        // Redirect to admin login if no session
-        router.push("/admin");
-      } else {
-        // Fetch event data
-        fetchEvent();
+  const formatDateForInput = useCallback(
+    (dateStr: string) => {
+      try {
+        const date = parseDate(dateStr);
+        if (!date) return "";
+        return format(date, "yyyy-MM-dd");
+      } catch (error) {
+        console.error(`Error formatting date for input: ${dateStr}`, error);
+        return "";
       }
-    });
+    },
+    [parseDate]
+  );
 
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if (!session) {
-        // Redirect to admin login if no session
-        router.push("/admin");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [router, id]);
-
-  const fetchEvent = async () => {
+  // Use useCallback to memoize the fetchEvent function
+  const fetchEvent = useCallback(async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
@@ -136,7 +109,34 @@ export default function EditEventPage({ params }: PageProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, formatDateForInput]);
+
+  useEffect(() => {
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (!session) {
+        // Redirect to admin login if no session
+        router.push("/admin");
+      } else {
+        // Fetch event data
+        fetchEvent();
+      }
+    });
+
+    // Listen for auth changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (!session) {
+        // Redirect to admin login if no session
+        router.push("/admin");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [router, id, fetchEvent]);
 
   const handleChange = (
     e: React.ChangeEvent<
