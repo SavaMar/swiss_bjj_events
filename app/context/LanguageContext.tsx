@@ -20,12 +20,19 @@ interface Translations {
       competition: string;
       seminar: string;
       kids: string;
+      thisMonth: string;
+      includingPastEvents: string;
+      hidePastEvents: string;
+      byCantonLabel: string;
+      allCantons: string;
     };
     card: {
       date: string;
       registerUntil: string;
       location: string;
       registerButton: string;
+      organizer: string;
+      pastEventButton: string;
     };
     noEvents: string;
   };
