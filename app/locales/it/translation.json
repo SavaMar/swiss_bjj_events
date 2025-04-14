@@ -13,13 +13,19 @@
       "open-mat": "Open Mat",
       "competition": "Competizione",
       "seminar": "Seminario",
-      "kids": "Bambini"
+      "kids": "Bambini",
+      "includingPastEvents": "Includi eventi passati",
+      "hidePastEvents": "Nascondi eventi passati",
+      "thisMonth": "Questo mese",
+      "byCantonLabel": "Filtra per cantone:",
+      "allCantons": "Tutti i cantoni"
     },
     "card": {
       "date": "Data",
       "registerUntil": "Registrazione fino al",
       "location": "Luogo",
-      "registerButton": "Registrati Ora"
+      "registerButton": "Registrati Ora",
+      "organizer": "Organizzato da"
     },
     "noEvents": "Nessun evento trovato per la categoria selezionata"
   },

@@ -280,10 +280,8 @@ export default function Home() {
           }`}
         >
           {includePastEvents
-            ? translations?.events?.filter?.includingPastEvents ||
-              "Including Past Events"
-            : translations?.events?.filter?.hidePastEvents ||
-              "Hide Past Events"}
+            ? translations?.events?.filter?.includingPastEvents
+            : translations?.events?.filter?.hidePastEvents}
         </button>
       </div>
 
