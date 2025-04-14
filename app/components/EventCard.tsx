@@ -5,9 +5,10 @@ import {
   EVENT_TYPE_COLORS,
   SWISS_CANTON_NAMES,
   SwissCanton,
+  EventType,
 } from "../types/event";
 import { useLanguage } from "../context/LanguageContext";
-import { format, parseISO } from "date-fns";
+import { format, parseISO, parse, isValid } from "date-fns";
 import { de, fr, it } from "date-fns/locale";
 
 interface EventCardProps {
@@ -22,8 +23,8 @@ const locales = {
   it: it,
 };
 
-// Extract the color values without the bg- and text- prefixes
-const EVENT_BORDER_COLORS: Record<string, string> = {
+// Map event types to border color classes
+const EVENT_BORDER_COLORS: Record<EventType, string> = {
   competition: "border-red-500",
   "open-mat": "border-green-500",
   womens: "border-pink-500",
@@ -31,21 +32,93 @@ const EVENT_BORDER_COLORS: Record<string, string> = {
   kids: "border-amber-500",
 };
 
+// Normalize event type to handle case differences and other potential inconsistencies
+const normalizeEventType = (type: string): EventType => {
+  // Convert to lowercase and trim any whitespace
+  const normalized = type.toLowerCase().trim();
+
+  // Map to valid EventType values
+  switch (normalized) {
+    case "competition":
+      return "competition";
+    case "open-mat":
+    case "openmat":
+    case "open mat":
+      return "open-mat";
+    case "womens":
+    case "women's":
+    case "women":
+      return "womens";
+    case "seminar":
+    case "seminars":
+      return "seminar";
+    case "kids":
+    case "kid":
+    case "children":
+      return "kids";
+    default:
+      console.warn(
+        `Unknown event type: ${type}. Using "competition" as fallback.`
+      );
+      return "competition"; // Default fallback
+  }
+};
+
 const EventCard = ({ event, isPast = false }: EventCardProps) => {
   const { language, translations } = useLanguage();
 
-  const startDate = parseISO(event.startDate);
-  const endDate = parseISO(event.endDate);
+  // Normalize the event type
+  const normalizedType = normalizeEventType(event.type);
+
+  // Helper function to parse date strings in various formats
+  const parseDate = (dateStr: string) => {
+    try {
+      // Try ISO format first (YYYY-MM-DD)
+      let date = parseISO(dateStr);
+      if (isValid(date)) return date;
+
+      // Try day.month.year format (DD.MM.YYYY)
+      date = parse(dateStr, "dd.MM.yyyy", new Date());
+      if (isValid(date)) return date;
+
+      // Try other formats if needed
+      date = parse(dateStr, "d.M.yyyy", new Date());
+      if (isValid(date)) return date;
+
+      // If all fails, return current date and log an error
+      console.error(`Could not parse date: ${dateStr}`);
+      return new Date();
+    } catch (error) {
+      console.error(`Error parsing date: ${dateStr}`, error);
+      return new Date();
+    }
+  };
+
+  const startDate = parseDate(event.startDate);
+  const endDate = parseDate(event.endDate);
+
+  // Helper function to safely format dates with the correct locale
+  const safeFormatDate = (date: Date, formatString: string) => {
+    try {
+      return format(date, formatString, {
+        locale: locales[language as keyof typeof locales],
+      });
+    } catch (error) {
+      console.error(`Error formatting date`, error);
+      return "Invalid date";
+    }
+  };
 
   const dateDisplay =
     event.startDate === event.endDate
-      ? format(startDate, "MMMM d, yyyy")
-      : `${format(startDate, "MMMM d")} - ${format(endDate, "d, yyyy")}`;
+      ? safeFormatDate(startDate, "MMMM d, yyyy")
+      : `${safeFormatDate(startDate, "MMMM d")} - ${safeFormatDate(
+          endDate,
+          "d, yyyy"
+        )}`;
 
   const formatDate = (date: string) => {
-    return format(parseISO(date), "dd.MM.yyyy", {
-      locale: locales[language as keyof typeof locales],
-    });
+    return safeFormatDate(parseDate(date), "dd.MM.yyyy");
   };
 
   // Safely get canton name or fallback to the canton code
@@ -54,7 +127,13 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
       ? SWISS_CANTON_NAMES[event.canton as SwissCanton]
       : event.canton;
 
-  const borderColorClass = EVENT_BORDER_COLORS[event.type] || "border-gray-300";
+  // Get the border color for this event type with a fallback
+  const borderColorClass =
+    EVENT_BORDER_COLORS[normalizedType] || "border-gray-300";
+
+  // Get the badge color for this event type with a fallback
+  const badgeColorClass =
+    EVENT_TYPE_COLORS[normalizedType] || "bg-gray-100 text-gray-800";
 
   return (
     <div
@@ -73,18 +152,22 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
               {event.name}
             </h3>
             <span
-              className={`px-2 py-1 rounded-full text-xs whitespace-nowrap ml-2 flex-shrink-0 ${
-                EVENT_TYPE_COLORS[event.type]
-              }`}
+              className={`px-2 py-1 rounded-full text-xs whitespace-nowrap ml-2 flex-shrink-0 ${badgeColorClass}`}
             >
-              {translations?.events?.filter?.[event.type] || event.type}
+              {translations?.events?.filter?.[normalizedType] || normalizedType}
             </span>
           </div>
-
           {/* Organizer */}
           <div className="text-sm text-gray-600 mb-2 italic">
             {translations?.events?.card?.organizer || "Organized by"}:{" "}
-            {event.organizer}
+            <a
+              href={event.organizerUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              {event.organizer}
+            </a>
           </div>
 
           {/* Past event badge */}
@@ -133,12 +216,19 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
             <span className="font-medium w-20 flex-shrink-0 xl:w-16">
               {translations?.events?.card?.location}:
             </span>
-            <span className="line-clamp-2" title={event.address}>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                event.address
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="line-clamp-2 text-blue-600 hover:text-blue-800 hover:underline"
+              title={event.address}
+            >
               {event.address}
-            </span>
+            </a>
           </p>
         </div>
-
         {/* Footer - always at the bottom */}
         <div className="pt-3 border-t border-gray-100 mt-auto">
           <a
@@ -150,7 +240,13 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 text-white"
             }`}
-            onClick={(e) => isPast && e.preventDefault()}
+            onClick={(e) => {
+              if (isPast) {
+                e.preventDefault();
+              } else {
+                window.open(event.eventLink, "_blank", "noopener,noreferrer");
+              }
+            }}
           >
             {isPast
               ? "Event Completed"

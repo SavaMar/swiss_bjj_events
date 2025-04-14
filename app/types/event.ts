@@ -37,6 +37,7 @@ export interface Event {
   id: string;
   name: string;
   organizer: string;
+  organizerUrl?: string;
   registerUntil: string;
   eventLink: string;
   logoUrl: string;

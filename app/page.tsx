@@ -1,17 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import EventCard from "./components/EventCard";
-import { EventType, SwissCanton, SWISS_CANTON_NAMES } from "./types/event";
-import { useLanguage } from "./context/LanguageContext";
 import {
-  startOfMonth,
-  endOfMonth,
-  isPast,
-  isThisMonth,
-  parseISO,
-} from "date-fns";
-import { mockEvents } from "./data/mockEvents";
+  Event,
+  EventType,
+  SwissCanton,
+  SWISS_CANTON_NAMES,
+} from "./types/event";
+import { useLanguage } from "./context/LanguageContext";
+import { isPast, isThisMonth, parseISO, isValid, parse } from "date-fns";
+import { supabase } from "../lib/supabase";
 
 type FilterType = EventType | "all" | "this-month";
 
@@ -25,7 +24,66 @@ const BILINGUAL_CANTON_NAMES: Partial<
   GR: { de: "Graubünden", fr: "Grisons" },
 };
 
+// Normalize event type to handle case differences and other potential inconsistencies
+const normalizeEventType = (type: string): EventType => {
+  // Convert to lowercase and trim any whitespace
+  const normalized = type.toLowerCase().trim();
+
+  // Map to valid EventType values
+  switch (normalized) {
+    case "competition":
+      return "competition";
+    case "open-mat":
+    case "openmat":
+    case "open mat":
+      return "open-mat";
+    case "womens":
+    case "women's":
+    case "women":
+      return "womens";
+    case "seminar":
+    case "seminars":
+      return "seminar";
+    case "kids":
+    case "kid":
+    case "children":
+      return "kids";
+    default:
+      console.warn(
+        `Unknown event type: ${type}. Using "competition" as fallback.`
+      );
+      return "competition"; // Default fallback
+  }
+};
+
+// Helper function to parse date strings in various formats
+const parseDate = (dateStr: string) => {
+  try {
+    // Try ISO format first (YYYY-MM-DD)
+    let date = parseISO(dateStr);
+    if (isValid(date)) return date;
+
+    // Try day.month.year format (DD.MM.YYYY)
+    date = parse(dateStr, "dd.MM.yyyy", new Date());
+    if (isValid(date)) return date;
+
+    // Try other formats if needed
+    date = parse(dateStr, "d.M.yyyy", new Date());
+    if (isValid(date)) return date;
+
+    // If all fails, return current date and log an error
+    console.error(`Could not parse date: ${dateStr}`);
+    return new Date();
+  } catch (error) {
+    console.error(`Error parsing date: ${dateStr}`, error);
+    return new Date();
+  }
+};
+
 export default function Home() {
+  const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<FilterType>("all");
   const [selectedCanton, setSelectedCanton] = useState<SwissCanton | "all">(
     "all"
@@ -33,13 +91,34 @@ export default function Home() {
   const [includePastEvents, setIncludePastEvents] = useState(true);
   const { translations, language } = useLanguage();
 
-  const currentDate = new Date();
-  const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        setLoading(true);
+        const { data, error } = await supabase
+          .from("Event")
+          .select("*")
+          .order("startDate", { ascending: true });
+
+        if (error) {
+          throw error;
+        }
+
+        setEvents(data || []);
+      } catch (err) {
+        console.error("Error fetching events:", err);
+        setError(err instanceof Error ? err.message : "Failed to fetch events");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchEvents();
+  }, []);
 
   // Get unique cantons from events for the dropdown
   const usedCantons = Array.from(
-    new Set(mockEvents.map((event) => event.canton as SwissCanton))
+    new Set(events.map((event) => event.canton as SwissCanton))
   ).sort((a, b) => {
     const nameA = getCantonDisplayName(a);
     const nameB = getCantonDisplayName(b);
@@ -55,15 +134,35 @@ export default function Home() {
     return SWISS_CANTON_NAMES[canton];
   }
 
-  const filteredEvents = mockEvents
+  // Helper function to safely check if a date is in the past
+  const isDateInPast = (dateStr: string) => {
+    try {
+      const date = parseDate(dateStr);
+      return isValid(date) && isPast(date);
+    } catch {
+      return false;
+    }
+  };
+
+  // Helper function to safely check if a date is in the current month
+  const isDateInCurrentMonth = (dateStr: string) => {
+    try {
+      const date = parseDate(dateStr);
+      return isValid(date) && isThisMonth(date);
+    } catch {
+      return false;
+    }
+  };
+
+  const filteredEvents = events
     .filter((event) => {
       // Type filtering
       if (selectedType === "all") return true;
       if (selectedType === "this-month") {
-        const eventDate = parseISO(event.startDate);
-        return eventDate >= monthStart && eventDate <= monthEnd;
+        return isDateInCurrentMonth(event.startDate);
       }
-      return event.type === selectedType;
+      // Normalize the event type for consistent filtering
+      return normalizeEventType(event.type) === selectedType;
     })
     .filter((event) => {
       // Canton filtering
@@ -71,8 +170,7 @@ export default function Home() {
       return event.canton === selectedCanton;
     })
     .filter((event) => {
-      const eventDate = parseISO(event.startDate);
-      const isPastEvent = isPast(eventDate);
+      const isPastEvent = isDateInPast(event.startDate);
 
       if (isPastEvent) {
         // For past events, only include them if:
@@ -80,17 +178,48 @@ export default function Home() {
         // 2. Event is from the current month OR we're not filtering by "this-month"
         return (
           includePastEvents &&
-          (isThisMonth(eventDate) || selectedType !== "this-month")
+          (isDateInCurrentMonth(event.startDate) ||
+            selectedType !== "this-month")
         );
       }
 
       // Always include future events
       return true;
     })
-    .sort(
-      (a, b) =>
-        parseISO(a.startDate).getTime() - parseISO(b.startDate).getTime()
+    .sort((a, b) => {
+      try {
+        const dateA = parseDate(a.startDate);
+        const dateB = parseDate(b.startDate);
+        if (isValid(dateA) && isValid(dateB)) {
+          return dateA.getTime() - dateB.getTime();
+        }
+        return 0;
+      } catch {
+        return 0;
+      }
+    });
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+          role="alert"
+        >
+          <strong className="font-bold">Error: </strong>
+          <span className="block sm:inline">{error}</span>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -195,7 +324,7 @@ export default function Home() {
           <EventCard
             key={event.id}
             event={event}
-            isPast={isPast(parseISO(event.startDate))}
+            isPast={isDateInPast(event.startDate)}
           />
         ))}
       </div>
