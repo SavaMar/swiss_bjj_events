@@ -46,20 +46,12 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
               <a
-                href="#"
+                href="https://www.instagram.com/swiss_bjj_events/"
                 className="text-gray-300 hover:text-white"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 Instagram
-              </a>
-              <a
-                href="#"
-                className="text-gray-300 hover:text-white"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Facebook
               </a>
             </div>
           </div>
