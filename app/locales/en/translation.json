@@ -1,0 +1,32 @@
+{
+  "navigation": {
+    "events": "Events",
+    "dojos": "Dojos",
+    "brands": "Local Brands",
+    "contact": "Contact"
+  },
+  "events": {
+    "title": "Swiss BJJ Events",
+    "filter": {
+      "all": "All Events",
+      "womens": "Women's",
+      "open-mat": "Open Mat",
+      "competition": "Competition",
+      "seminar": "Seminar",
+      "kids": "Kids"
+    },
+    "card": {
+      "date": "Date",
+      "registerUntil": "Register until",
+      "location": "Location",
+      "registerButton": "Register Now"
+    },
+    "noEvents": "No events found for the selected category"
+  },
+  "footer": {
+    "description": "Connecting the Swiss Brazilian Jiu-Jitsu community through events, dojos, and local brands.",
+    "quickLinks": "Quick Links",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved"
+  }
+}
