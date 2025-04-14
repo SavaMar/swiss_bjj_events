@@ -7,7 +7,11 @@ import { Event, SWISS_CANTON_NAMES } from "../../../../types/event";
 import { Session } from "@supabase/supabase-js";
 import { format, parse, parseISO, isValid } from "date-fns";
 
-export default function EditEventPage({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: { id: string };
+}
+
+export default function EditEventPage({ params }: PageProps) {
   const router = useRouter();
   const { id } = params;
 

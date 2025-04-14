@@ -264,13 +264,7 @@ export default function AdminPage() {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       {event.logoUrl && (
-                        <div className="flex-shrink-0 h-10 w-10 mr-4">
-                          <img
-                            className="h-10 w-10 rounded-full object-cover"
-                            src={event.logoUrl}
-                            alt={event.name}
-                          />
-                        </div>
+                        <div className="flex-shrink-0 h-10 w-10 mr-4"></div>
                       )}
                       <div>
                         <div className="text-sm font-medium text-gray-900">
