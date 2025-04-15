@@ -32,9 +32,39 @@ interface Translations {
       location: string;
       registerButton: string;
       organizer: string;
-      pastEventButton: string;
+      pastEventButton?: string;
     };
     noEvents: string;
+  };
+  dojos: {
+    title: string;
+    explanation: {
+      title: string;
+      womans: string;
+      kids: string;
+      advanced: string;
+      open_mat: string;
+      free_guest: string;
+    };
+    filter: {
+      byCantonLabel: string;
+      byZipCodeLabel: string;
+      byFeaturesLabel: string;
+      allCantons: string;
+      allZipCodes: string;
+      clearFilters: string;
+    };
+    features: {
+      womans: string;
+      kids: string;
+      advanced: string;
+      open_mat: string;
+      free_guest: string;
+    };
+    trial: string;
+    also_offers: string;
+    visitWebsite: string;
+    noDojos: string;
   };
   footer: {
     description: string;

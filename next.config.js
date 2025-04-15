@@ -4,6 +4,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // Configure allowed image domains
+  images: {
+    domains: ["filedn.com", "play-lh.googleusercontent.com"],
+  },
 };
 
 module.exports = nextConfig;

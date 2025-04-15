@@ -3,7 +3,8 @@
     "events": "Eventi",
     "dojos": "Dojo",
     "brands": "Marchi Locali",
-    "contact": "Contatto"
+    "contact": "Contatto",
+    "supportProject": "Sostieni il progetto"
   },
   "events": {
     "title": "Eventi Swiss BJJ",
@@ -28,6 +29,39 @@
       "organizer": "Organizzato da"
     },
     "noEvents": "Nessun evento trovato per la categoria selezionata"
+  },
+  "dojos": {
+    "title": "Dojo Swiss BJJ",
+    "explanation": {
+      "title": "Caratteristiche dei dojo spiegate",
+      "womans": "Corsi per donne - Corsi esclusivamente per donne",
+      "kids": "Corsi per bambini - Il dojo offre corsi per bambini",
+      "advanced": "Allenamento avanzato - Corsi per cinture di colore superiore",
+      "open_mat": "Open Mat - Sessioni di allenamento aperte che accolgono persone di diversi dojo",
+      "free_guest": "Allenamento gratuito per ospiti - Se viaggi in Svizzera da un altro paese, puoi allenarti gratuitamente con noi"
+    },
+    "addGymTitle": "Aggiungi il Tuo Dojo BJJ",
+    "addGymDescription": "Sei proprietario di un dojo o istruttore? Fai inserire il tuo dojo qui. Puoi aiutarmi e anche invitare altri dojo a unirsi alla comunità.",
+    "addGymButton": "Invia il Tuo Dojo",
+    "filter": {
+      "byCantonLabel": "Filtra per cantone:",
+      "byZipCodeLabel": "Filtra per codice postale:",
+      "byFeaturesLabel": "Filtra per caratteristiche:",
+      "allCantons": "Tutti i cantoni",
+      "allZipCodes": "Tutti i codici postali",
+      "clearFilters": "Cancella filtri"
+    },
+    "features": {
+      "womans": "Corsi per donne",
+      "kids": "Corsi per bambini",
+      "advanced": "Allenamento avanzato",
+      "open_mat": "Open Mat",
+      "free_guest": "Allenamento gratuito per ospiti"
+    },
+    "trial": "Offerta di prova",
+    "also_offers": "Offre anche",
+    "visitWebsite": "Visita il sito web",
+    "noDojos": "Nessun dojo trovato corrispondente ai tuoi filtri"
   },
   "footer": {
     "description": "Connettere la comunità svizzera di Brazilian Jiu-Jitsu attraverso eventi, dojo e marchi locali.",

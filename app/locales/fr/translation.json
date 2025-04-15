@@ -3,7 +3,8 @@
     "events": "Événements",
     "dojos": "Dojos",
     "brands": "Marques Locales",
-    "contact": "Contact"
+    "contact": "Contact",
+    "supportProject": "Soutenir le projet"
   },
   "events": {
     "title": "Événements Swiss BJJ",
@@ -28,6 +29,39 @@
       "organizer": "Organisé par"
     },
     "noEvents": "Aucun événement trouvé pour la catégorie sélectionnée"
+  },
+  "dojos": {
+    "title": "Dojos Swiss BJJ",
+    "explanation": {
+      "title": "Caractéristiques des dojos expliquées",
+      "womans": "Cours pour femmes - Cours exclusivement réservés aux femmes",
+      "kids": "Cours pour enfants - Le dojo propose des cours pour enfants",
+      "advanced": "Entraînement avancé - Cours pour les ceintures de couleur supérieure",
+      "open_mat": "Open Mat - Sessions d'entraînement ouvertes accueillant des personnes de différents dojos",
+      "free_guest": "Entraînement gratuit pour invités - Si vous voyagez en Suisse depuis un autre pays, vous pouvez vous entraîner gratuitement avec nous"
+    },
+    "addGymTitle": "Ajoutez Votre Dojo de BJJ",
+    "addGymDescription": "Êtes-vous propriétaire d'un dojo ou instructeur? Faites répertorier votre dojo ici. Vous pouvez m'aider et aussi inviter d'autres dojos à rejoindre la communauté.",
+    "addGymButton": "Soumettre Votre Dojo",
+    "filter": {
+      "byCantonLabel": "Filtrer par canton:",
+      "byZipCodeLabel": "Filtrer par code postal:",
+      "byFeaturesLabel": "Filtrer par caractéristiques:",
+      "allCantons": "Tous les cantons",
+      "allZipCodes": "Tous les codes postaux",
+      "clearFilters": "Effacer les filtres"
+    },
+    "features": {
+      "womans": "Cours pour femmes",
+      "kids": "Cours pour enfants",
+      "advanced": "Entraînement avancé",
+      "open_mat": "Open Mat",
+      "free_guest": "Entraînement gratuit pour invités"
+    },
+    "trial": "Offre d'essai",
+    "also_offers": "Propose également",
+    "visitWebsite": "Visiter le site web",
+    "noDojos": "Aucun dojo trouvé correspondant à vos filtres"
   },
   "footer": {
     "description": "Connecter la communauté Suisse de Brazilian Jiu-Jitsu à travers les événements, les dojos et les marques locales.",

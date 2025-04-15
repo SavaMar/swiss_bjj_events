@@ -3,7 +3,8 @@
     "events": "Events",
     "dojos": "Dojos",
     "brands": "Local Brands",
-    "contact": "Contact"
+    "contact": "Contact",
+    "supportProject": "Support project"
   },
   "events": {
     "title": "Swiss BJJ Events",
@@ -28,6 +29,39 @@
       "organizer": "Organized by"
     },
     "noEvents": "No events found for the selected category"
+  },
+  "dojos": {
+    "title": "Swiss BJJ Dojos",
+    "explanation": {
+      "title": "Gym Features Explained",
+      "womans": "Women's Classes - Classes exclusively for women",
+      "kids": "Kids Classes - The gym provides classes for children",
+      "advanced": "Advanced Training - Classes for higher colored belts",
+      "open_mat": "Open Mat - Open training sessions welcoming people from different gyms",
+      "free_guest": "Free Guest Training - If you're traveling to Switzerland from another country, you can train with us for free"
+    },
+    "addGymTitle": "Add Your BJJ Gym",
+    "addGymDescription": "Are you a gym owner or instructor? Get your dojo listed here. You can help me and also invite other gyms to join the community.",
+    "addGymButton": "Submit Your Gym",
+    "filter": {
+      "byCantonLabel": "Filter by Canton:",
+      "byZipCodeLabel": "Filter by ZIP Code:",
+      "byFeaturesLabel": "Filter by Features:",
+      "allCantons": "All Cantons",
+      "allZipCodes": "All ZIP Codes",
+      "clearFilters": "Clear All Filters"
+    },
+    "features": {
+      "womans": "Women's Classes",
+      "kids": "Kids Classes",
+      "advanced": "Advanced Training",
+      "open_mat": "Open Mat",
+      "free_guest": "Free Guest Training"
+    },
+    "trial": "Trial Offer",
+    "also_offers": "Also offers",
+    "visitWebsite": "Visit Website",
+    "noDojos": "No dojos found matching your filters"
   },
   "footer": {
     "description": "Connecting the Swiss Brazilian Jiu-Jitsu community through events, dojos, and local brands.",

@@ -3,7 +3,8 @@
     "events": "Veranstaltungen",
     "dojos": "Dojos",
     "brands": "Lokale Marken",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "supportProject": "Projekt unterstützen"
   },
   "events": {
     "title": "Swiss BJJ Veranstaltungen",
@@ -28,6 +29,39 @@
       "organizer": "Organisiert von"
     },
     "noEvents": "Keine Veranstaltungen für die ausgewählte Kategorie gefunden"
+  },
+  "dojos": {
+    "title": "Swiss BJJ Dojos",
+    "explanation": {
+      "title": "Dojo-Funktionen erklärt",
+      "womans": "Frauenkurse - Kurse ausschließlich für Frauen",
+      "kids": "Kinderkurse - Das Dojo bietet Kurse für Kinder an",
+      "advanced": "Fortgeschrittenes Training - Kurse für höhere Gürtelgrade",
+      "open_mat": "Open Mat - Offene Trainingseinheiten für Gäste aus verschiedenen Dojos",
+      "free_guest": "Kostenloses Gasttraining - Wenn du aus einem anderen Land in die Schweiz reist, kannst du kostenlos mit uns trainieren"
+    },
+    "addGymTitle": "Füge Dein BJJ Dojo hinzu",
+    "addGymDescription": "Bist du Dojo-Besitzer oder Trainer? Lass dein Dojo hier eintragen. Du kannst mir helfen und auch andere Dojos einladen, der Gemeinschaft beizutreten.",
+    "addGymButton": "Dojo eintragen",
+    "filter": {
+      "byCantonLabel": "Nach Kanton filtern:",
+      "byZipCodeLabel": "Nach PLZ filtern:",
+      "byFeaturesLabel": "Nach Funktionen filtern:",
+      "allCantons": "Alle Kantone",
+      "allZipCodes": "Alle PLZ",
+      "clearFilters": "Filter zurücksetzen"
+    },
+    "features": {
+      "womans": "Frauenkurse",
+      "kids": "Kinderkurse",
+      "advanced": "Fortgeschrittenes Training",
+      "open_mat": "Open Mat",
+      "free_guest": "Kostenloses Gasttraining"
+    },
+    "trial": "Probeangebot",
+    "also_offers": "Bietet auch",
+    "visitWebsite": "Website besuchen",
+    "noDojos": "Keine Dojos gefunden, die den Filterkriterien entsprechen"
   },
   "footer": {
     "description": "Verbindung der Schweizer Brazilian Jiu-Jitsu Community durch Veranstaltungen, Dojos und lokale Marken.",

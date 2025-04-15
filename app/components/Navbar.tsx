@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "../context/LanguageContext";
 import {
@@ -10,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, HeartHandshake } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,6 +36,9 @@ const Navbar = () => {
   ];
 
   const currentLanguage = languages.find((lang) => lang.code === language);
+
+  const supportLink =
+    "https://go.twint.ch/1/e/tw?tw=acq.8Se8HLqcRD2xXAosggSCW4fNjeLkaz61TLijTxqo6cVKG2e-WVD9I-bxAST4IOD9";
 
   return (
     <nav className="bg-white shadow-lg">
@@ -64,6 +68,24 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
+              <a
+                href={supportLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center"
+              >
+                <button className="bg-black text-white flex items-center space-x-2 px-3 py-2 rounded-md hover:bg-gray-800">
+                  <Image
+                    src="https://play-lh.googleusercontent.com/pGZsOWcRRSQLNncRTfhGQKP_Oql9-ZmtdygrFd8myq7wONKa-INO-gFSy1xp5BL2yA"
+                    alt="TWINT"
+                    width={24}
+                    height={24}
+                    className="rounded"
+                  />
+                  <span>{"Support project"}</span>
+                  <HeartHandshake className="h-4 w-4 ml-1" />
+                </button>
+              </a>
             </div>
             <div className="ml-4">
               <DropdownMenu>
@@ -153,6 +175,24 @@ const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            <a
+              href={supportLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block py-2"
+            >
+              <button className="bg-black text-white flex items-center space-x-2 px-3 py-2 rounded-md w-full hover:bg-gray-800">
+                <Image
+                  src="https://play-lh.googleusercontent.com/pGZsOWcRRSQLNncRTfhGQKP_Oql9-ZmtdygrFd8myq7wONKa-INO-gFSy1xp5BL2yA"
+                  alt="TWINT"
+                  width={24}
+                  height={24}
+                  className="rounded"
+                />
+                <span>{"Support project"}</span>
+                <HeartHandshake className="h-4 w-4 ml-1" />
+              </button>
+            </a>
             <div className="mt-4 px-3">
               <DropdownMenu>
                 <DropdownMenuTrigger className="flex items-center space-x-1 w-full px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-100">
