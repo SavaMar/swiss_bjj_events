@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import { Dojo, DOJO_FEATURE_COLORS } from "../types/dojo";
-import { SWISS_CANTON_NAMES } from "../types/event";
 import { ExternalLink, MapPin, Award, Users } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 
