@@ -56,6 +56,17 @@ interface Translations {
       description: string;
     };
   };
+  contact: {
+    title: string;
+    intro: string;
+    bulletPoints: string[];
+    formIntro: string;
+    nameLabel: string;
+    emailLabel: string;
+    subjectLabel: string;
+    messageLabel: string;
+    submitButton: string;
+  };
   dojos: {
     title: string;
     explanation: {

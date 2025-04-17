@@ -50,6 +50,23 @@
       "description": "Eine internationale Turnierserie mit einzigartigen Round-Robin-Format. Bekannt für ihre gut organisierten Veranstaltungen in Europa, Nordamerika und Australien."
     }
   },
+  "contact": {
+    "title": "Lass uns zusammenarbeiten!",
+    "intro": "Wir suchen immer nach Möglichkeiten, mit Mitgliedern der Schweizer BJJ-Community zusammenzuarbeiten! Ob du möchtest:",
+    "bulletPoints": [
+      "Blogbeiträge über BJJ schreiben",
+      "Deinen Podcast teilen oder einen neuen starten",
+      "Helfen, ein Verzeichnis von Frauen mit braunem & schwarzem Gürtel in der Schweiz aufzubauen",
+      "Dich als privater BJJ-Coach eintragen lassen",
+      "Andere Ideen vorschlagen, um die Community zu vergrößern"
+    ],
+    "formIntro": "Wir würden uns freuen, von dir zu hören! Bitte fülle das untenstehende Formular aus und wir melden uns bald bei dir.",
+    "nameLabel": "Name",
+    "emailLabel": "E-Mail",
+    "subjectLabel": "Betreff",
+    "messageLabel": "Nachricht",
+    "submitButton": "Nachricht senden"
+  },
   "dojos": {
     "title": "Swiss BJJ Dojos",
     "explanation": {

@@ -50,6 +50,23 @@
       "description": "Une série de tournois internationaux avec un format unique de tournoi à la ronde. Connue pour ses événements bien organisés en Europe, en Amérique du Nord et en Australie."
     }
   },
+  "contact": {
+    "title": "Collaborons ensemble !",
+    "intro": "Nous sommes toujours à la recherche de collaborations avec des membres de la communauté BJJ Suisse ! Que vous souhaitiez :",
+    "bulletPoints": [
+      "Écrire des articles de blog sur le BJJ",
+      "Partager votre podcast ou en commencer un nouveau",
+      "Aider à construire un répertoire des femmes ceintures marron et noire en Suisse",
+      "Vous inscrire en tant que coach privé de BJJ",
+      "Suggérer d'autres idées pour développer la communauté"
+    ],
+    "formIntro": "Nous serions ravis d'avoir de vos nouvelles ! Veuillez remplir le formulaire ci-dessous et nous vous répondrons bientôt.",
+    "nameLabel": "Nom",
+    "emailLabel": "E-mail",
+    "subjectLabel": "Sujet",
+    "messageLabel": "Message",
+    "submitButton": "Envoyer le message"
+  },
   "dojos": {
     "title": "Dojos Swiss BJJ",
     "explanation": {

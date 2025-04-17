@@ -50,6 +50,23 @@
       "description": "An international tournament series with a unique round-robin format. Known for their well-organized events across Europe, North America, and Australia."
     }
   },
+  "contact": {
+    "title": "Let's Collaborate!",
+    "intro": "We're always looking to collaborate with members of the Swiss BJJ community! Whether you want to:",
+    "bulletPoints": [
+      "Write blog posts about BJJ",
+      "Share your podcast or start a new one",
+      "Help build a directory of women brown & black belts in Switzerland",
+      "List yourself as a private BJJ coach",
+      "Suggest other ideas to grow the community"
+    ],
+    "formIntro": "We'd love to hear from you! Please fill out the form below and we'll get back to you soon.",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "subjectLabel": "Subject",
+    "messageLabel": "Message",
+    "submitButton": "Send Message"
+  },
   "dojos": {
     "title": "Swiss BJJ Dojos",
     "explanation": {

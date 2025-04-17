@@ -50,6 +50,23 @@
       "description": "Una serie di tornei internazionali con un formato unico a girone all'italiana. Conosciuta per i suoi eventi ben organizzati in Europa, Nord America e Australia."
     }
   },
+  "contact": {
+    "title": "Collaboriamo insieme!",
+    "intro": "Siamo sempre alla ricerca di collaborazioni con membri della comunità BJJ svizzera! Che tu voglia:",
+    "bulletPoints": [
+      "Scrivere post di blog sul BJJ",
+      "Condividere il tuo podcast o iniziarne uno nuovo",
+      "Aiutare a costruire una directory delle donne cinture marroni e nere in Svizzera",
+      "Registrarti come coach privato di BJJ",
+      "Suggerire altre idee per far crescere la comunità"
+    ],
+    "formIntro": "Ci piacerebbe sentirti! Compila il modulo qui sotto e ti risponderemo presto.",
+    "nameLabel": "Nome",
+    "emailLabel": "Email",
+    "subjectLabel": "Oggetto",
+    "messageLabel": "Messaggio",
+    "submitButton": "Invia messaggio"
+  },
   "dojos": {
     "title": "Dojo Swiss BJJ",
     "explanation": {
