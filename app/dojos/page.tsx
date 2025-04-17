@@ -115,16 +115,16 @@ export default function DojosPage() {
     value: boolean | null,
     setter: React.Dispatch<React.SetStateAction<boolean | null>>
   ) => {
-    // Cycle through: null (don't filter) -> true (show only true) -> false (show only false) -> null (reset)
+    // Simplified toggle: null (don't filter) -> true (show only true) -> null (reset)
+    // Removed the "false" state since users rarely want to filter for "without feature"
     if (value === null) setter(true);
-    else if (value === true) setter(false);
     else setter(null);
   };
 
   // Button style helper
   const getButtonStyle = (value: boolean | null) => {
     if (value === null) return "bg-gray-100 text-gray-800 hover:bg-gray-200";
-    return value ? "bg-green-600 text-white" : "bg-red-600 text-white";
+    return "bg-green-600 text-white"; // Only true state remains
   };
 
   if (loading) {
@@ -319,28 +319,28 @@ export default function DojosPage() {
               className={`px-4 py-2 rounded-md ${getButtonStyle(showWomans)}`}
             >
               {translations?.dojos?.features?.womans || "Women's Classes"}{" "}
-              {showWomans === null ? "" : showWomans ? "✓" : "✗"}
+              {showWomans === true && "✓"}
             </button>
             <button
               onClick={() => toggleFilter(showKids, setShowKids)}
               className={`px-4 py-2 rounded-md ${getButtonStyle(showKids)}`}
             >
               {translations?.dojos?.features?.kids || "Kids Classes"}{" "}
-              {showKids === null ? "" : showKids ? "✓" : "✗"}
+              {showKids === true && "✓"}
             </button>
             <button
               onClick={() => toggleFilter(showAdvanced, setShowAdvanced)}
               className={`px-4 py-2 rounded-md ${getButtonStyle(showAdvanced)}`}
             >
               {translations?.dojos?.features?.advanced || "Advanced Training"}{" "}
-              {showAdvanced === null ? "" : showAdvanced ? "✓" : "✗"}
+              {showAdvanced === true && "✓"}
             </button>
             <button
               onClick={() => toggleFilter(showOpenMat, setShowOpenMat)}
               className={`px-4 py-2 rounded-md ${getButtonStyle(showOpenMat)}`}
             >
               {translations?.dojos?.features?.open_mat || "Open Mat"}{" "}
-              {showOpenMat === null ? "" : showOpenMat ? "✓" : "✗"}
+              {showOpenMat === true && "✓"}
             </button>
             <button
               onClick={() => toggleFilter(showFreeGuest, setShowFreeGuest)}
@@ -350,7 +350,7 @@ export default function DojosPage() {
             >
               {translations?.dojos?.features?.free_guest ||
                 "Free Guest Training"}{" "}
-              {showFreeGuest === null ? "" : showFreeGuest ? "✓" : "✗"}
+              {showFreeGuest === true && "✓"}
             </button>
           </div>
         </div>
