@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "../context/LanguageContext";
@@ -60,15 +59,15 @@ const mockOrganizations: Organization[] = [
 ];
 
 export default function OrganizationsPage() {
-  const { translations, currentLanguage } = useLanguage();
+  const { translations } = useLanguage();
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8 text-center">
-        {translations?.organizations?.title || "Organizations"}
+        {translations?.organisations?.title || "Organizations"}
       </h1>
       <p className="text-center text-gray-600 mb-12 max-w-3xl mx-auto">
-        {translations?.organizations?.description ||
+        {translations?.organisations?.description ||
           "Major Brazilian Jiu-Jitsu and grappling organizations that host competitions in Switzerland and internationally."}
       </p>
 
@@ -104,7 +103,7 @@ export default function OrganizationsPage() {
                   className="flex items-center text-blue-600 hover:text-blue-800"
                 >
                   <ExternalLink size={16} className="mr-1" />
-                  {translations?.organizations?.website || "Website"}
+                  {translations?.organisations?.visitWebsite || "Website"}
                 </a>
 
                 <a
@@ -121,7 +120,8 @@ export default function OrganizationsPage() {
                   href={`/organizations/rules/${org.rulesSlug}`}
                   className="flex items-center text-gray-700 hover:text-gray-900"
                 >
-                  {translations?.organizations?.rules || "Competition Rules"}
+                  {translations?.organisations?.viewRules ||
+                    "Competition Rules"}
                 </Link>
               </div>
             </div>
