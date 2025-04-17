@@ -59,6 +59,14 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
+                <Link
+                  href="/organisations"
+                  className="text-gray-300 hover:text-white"
+                >
+                  {translations?.navigation?.organisations || "Organisations"}
+                </Link>
+              </li>
+              <li>
                 <Link href="/brands" className="text-gray-300 hover:text-white">
                   {translations?.navigation?.brands || "Local Brands"}
                 </Link>

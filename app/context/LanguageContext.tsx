@@ -10,6 +10,7 @@ interface Translations {
     dojos: string;
     brands: string;
     contact: string;
+    organisations: string;
   };
   events: {
     title: string;
@@ -35,6 +36,25 @@ interface Translations {
       pastEventButton?: string;
     };
     noEvents: string;
+  };
+  organisations?: {
+    title: string;
+    description: string;
+    visitWebsite: string;
+    followInstagram: string;
+    viewRules: string;
+    ajp: {
+      description: string;
+    };
+    adcc: {
+      description: string;
+    };
+    sbjjnf: {
+      description: string;
+    };
+    grapplingindustries: {
+      description: string;
+    };
   };
   dojos: {
     title: string;

@@ -4,7 +4,8 @@
     "dojos": "Dojos",
     "brands": "Local Brands",
     "contact": "Contact",
-    "supportProject": "Support project"
+    "supportProject": "Support project",
+    "organisations": "Organisations"
   },
   "events": {
     "title": "Swiss BJJ Events",
@@ -29,6 +30,25 @@
       "organizer": "Organized by"
     },
     "noEvents": "No events found for the selected category"
+  },
+  "organisations": {
+    "title": "BJJ Organizations in Switzerland",
+    "description": "Here you can find information about major BJJ organizations active in Switzerland. These organizations host competitions and events throughout the country and internationally.",
+    "visitWebsite": "Visit Official Website",
+    "followInstagram": "Follow on Instagram",
+    "viewRules": "View Competition Rules",
+    "ajp": {
+      "description": "A global professional jiu-jitsu organization founded by the UAE Jiu-Jitsu Federation. Known for organizing major tournaments like the Abu Dhabi World Professional Championship."
+    },
+    "adcc": {
+      "description": "The most prestigious submission wrestling competition in the world. ADCC hosts the World Championships every two years, attracting the elite of grappling."
+    },
+    "sbjjnf": {
+      "description": "The national federation governing Brazilian Jiu-Jitsu in Switzerland, organizing tournaments and promoting the sport throughout the country."
+    },
+    "grapplingindustries": {
+      "description": "An international tournament series with a unique round-robin format. Known for their well-organized events across Europe, North America, and Australia."
+    }
   },
   "dojos": {
     "title": "Swiss BJJ Dojos",

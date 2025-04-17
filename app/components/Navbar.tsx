@@ -22,6 +22,10 @@ const Navbar = () => {
     { name: translations?.navigation?.events || "Events", href: "/" },
     { name: translations?.navigation?.dojos || "Dojos", href: "/dojos" },
     {
+      name: translations?.navigation?.organisations || "Organisations",
+      href: "/organisations",
+    },
+    {
       name: translations?.navigation?.brands || "Local Brands",
       href: "/brands",
     },
