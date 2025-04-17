@@ -48,6 +48,12 @@ function ContactPage() {
         >
           swissbjj.ch@gmail.com
         </a>
+        <br></br>
+        <br></br>
+        <span className="text-blue-500">
+          * You can also share info and resources what you read and watch about
+          BJJ with others to help other to grow the community
+        </span>
       </p>
 
       <form
