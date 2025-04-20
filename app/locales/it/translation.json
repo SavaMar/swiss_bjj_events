@@ -16,9 +16,10 @@
       "competition": "Competizione",
       "seminar": "Seminario",
       "kids": "Bambini",
+      "camp": "Camp",
+      "thisMonth": "Questo mese",
       "includingPastEvents": "Includi eventi passati",
       "hidePastEvents": "Nascondi eventi passati",
-      "thisMonth": "Questo mese",
       "byCantonLabel": "Filtra per cantone:",
       "allCantons": "Tutti i cantoni"
     },

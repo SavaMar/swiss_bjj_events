@@ -21,6 +21,7 @@ interface Translations {
       competition: string;
       seminar: string;
       kids: string;
+      camp: string;
       thisMonth: string;
       includingPastEvents: string;
       hidePastEvents: string;

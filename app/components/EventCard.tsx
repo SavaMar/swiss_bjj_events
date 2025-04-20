@@ -30,6 +30,7 @@ const EVENT_BORDER_COLORS: Record<EventType, string> = {
   womens: "border-pink-500",
   seminar: "border-cyan-500",
   kids: "border-amber-500",
+  camp: "border-teal-500",
 };
 
 // Normalize event type to handle case differences and other potential inconsistencies
@@ -56,6 +57,10 @@ const normalizeEventType = (type: string): EventType => {
     case "kid":
     case "children":
       return "kids";
+    case "camp":
+    case "training camp":
+    case "trainingcamp":
+      return "camp";
     default:
       console.warn(
         `Unknown event type: ${type}. Using "competition" as fallback.`
@@ -164,7 +169,7 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
               href={event.organizerUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:underline"
+              className="underline text-blue-600"
             >
               {event.organizer}
             </a>

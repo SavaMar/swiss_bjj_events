@@ -48,6 +48,10 @@ const normalizeEventType = (type: string): EventType => {
     case "kid":
     case "children":
       return "kids";
+    case "camp":
+    case "training camp":
+    case "trainingcamp":
+      return "camp";
     default:
       console.warn(
         `Unknown event type: ${type}. Using "competition" as fallback.`
@@ -254,6 +258,7 @@ export default function Home() {
             "competition",
             "seminar",
             "kids",
+            "camp",
           ] as EventType[]
         ).map((type) => (
           <button

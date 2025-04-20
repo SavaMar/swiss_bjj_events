@@ -3,7 +3,8 @@ export type EventType =
   | "womens"
   | "kids"
   | "open-mat"
-  | "seminar";
+  | "seminar"
+  | "camp";
 
 export type SwissCanton =
   | "ZH"
@@ -56,6 +57,7 @@ export const EVENT_TYPE_COLORS: Record<EventType, string> = {
   womens: "bg-pink-100 text-pink-800",
   seminar: "bg-cyan-100 text-cyan-800",
   kids: "bg-amber-100 text-amber-500",
+  camp: "bg-purple-100 text-purple-800",
 };
 
 export const SWISS_CANTON_NAMES: Record<SwissCanton, string> = {
