@@ -51,6 +51,8 @@ export interface Event {
   endTime: string;
   guest_name?: string;
   guest_link?: string;
+  dojo_id?: string;
+  dojo_logo?: string;
 }
 
 export const EVENT_TYPE_COLORS: Record<EventType, string> = {

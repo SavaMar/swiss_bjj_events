@@ -1,15 +1,10 @@
 "use client";
 
-import {
-  Event,
-  EVENT_TYPE_COLORS,
-  SWISS_CANTON_NAMES,
-  SwissCanton,
-  EventType,
-} from "../types/event";
+import { Event, EVENT_TYPE_COLORS, EventType } from "../types/event";
 import { useLanguage } from "../context/LanguageContext";
 import { format, parseISO, parse, isValid } from "date-fns";
 import { de, fr, it } from "date-fns/locale";
+import Image from "next/image";
 
 interface EventCardProps {
   event: Event;
@@ -72,6 +67,18 @@ const normalizeEventType = (type: string): EventType => {
 const EventCard = ({ event, isPast = false }: EventCardProps) => {
   const { language, translations } = useLanguage();
 
+  // Base URL for all dojo logos
+  const logoBaseUrl = "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/";
+
+  // Construct the full logo URL
+  const getLogoUrl = (filename: string): string => {
+    if (!filename) return "";
+    // If it's already a full URL, return as is
+    if (filename.startsWith("http")) return filename;
+    // Otherwise append to the base URL
+    return `${logoBaseUrl}${filename}`;
+  };
+
   // Normalize the event type
   const normalizedType = normalizeEventType(event.type);
 
@@ -126,12 +133,6 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
     return safeFormatDate(parseDate(date), "dd.MM.yyyy");
   };
 
-  // Safely get canton name or fallback to the canton code
-  const cantonName =
-    event.canton in SWISS_CANTON_NAMES
-      ? SWISS_CANTON_NAMES[event.canton as SwissCanton]
-      : event.canton;
-
   // Get the border color for this event type with a fallback
   const borderColorClass =
     EVENT_BORDER_COLORS[normalizedType] || "border-gray-300";
@@ -139,6 +140,9 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
   // Get the badge color for this event type with a fallback
   const badgeColorClass =
     EVENT_TYPE_COLORS[normalizedType] || "bg-gray-100 text-gray-800";
+
+  // Use dojo_logo if available, otherwise use event.logoUrl
+  const logoUrl = event.dojo_logo ? getLogoUrl(event.dojo_logo) : event.logoUrl;
 
   return (
     <div
@@ -162,17 +166,35 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
               {translations?.events?.filter?.[normalizedType] || normalizedType}
             </span>
           </div>
-          {/* Organizer */}
-          <div className="text-sm text-gray-600 mb-2 italic">
-            {translations?.events?.card?.organizer || "Organized by"}:{" "}
-            <a
-              href={event.organizerUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-blue-600"
-            >
-              {event.organizer}
-            </a>
+          {/* Organizer with logo */}
+          <div className="flex items-center mb-2">
+            {logoUrl && (
+              <div className="relative w-8 h-8 mr-2 flex-shrink-0 overflow-hidden rounded-full bg-gray-100 border border-gray-200">
+                <Image
+                  src={logoUrl}
+                  alt={event.organizer}
+                  fill
+                  sizes="32px"
+                  className="object-contain p-1"
+                  onError={(e) => {
+                    // Hide the image on error
+                    const target = e.target as HTMLImageElement;
+                    target.style.display = "none";
+                  }}
+                />
+              </div>
+            )}
+            <div className="text-sm text-gray-600 italic flex-grow">
+              {translations?.events?.card?.organizer || "Organized by"}:{" "}
+              <a
+                href={event.organizerUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-blue-600"
+              >
+                {event.organizer}
+              </a>
+            </div>
           </div>
 
           {/* Past event badge */}

@@ -56,8 +56,8 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Desktop menu */}
-          <div className="hidden sm:flex sm:items-center">
+          {/* Desktop menu - changed from sm: to lg: to accommodate iPad Air and smaller devices */}
+          <div className="hidden lg:flex lg:items-center">
             <div className="flex space-x-4">
               {navigation.map((item) => (
                 <Link
@@ -119,8 +119,8 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile menu button */}
-          <div className="sm:hidden flex items-center">
+          {/* Mobile menu button - changed from sm:hidden to lg:hidden */}
+          <div className="lg:hidden flex items-center">
             {/* Mobile language switcher */}
             <div className="flex mr-3 space-x-1 border rounded-md p-0.5 bg-gray-50">
               {languages.map((lang) => (
@@ -182,9 +182,9 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile menu - changed from sm:hidden to lg:hidden */}
       {isOpen && (
-        <div className="sm:hidden">
+        <div className="lg:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navigation.map((item) => (
               <Link
@@ -195,6 +195,7 @@ const Navbar = () => {
                     ? "bg-gray-900 text-white"
                     : "text-gray-900 hover:bg-gray-700 hover:text-white"
                 } block px-3 py-2 rounded-md text-base font-medium`}
+                onClick={() => setIsOpen(false)}
               >
                 {item.name}
               </Link>
