@@ -37,6 +37,7 @@ interface Translations {
       pastEventButton?: string;
     };
     calendarView: string;
+    addEvent: string;
     backToEvents: string;
     noEvents: string;
   };

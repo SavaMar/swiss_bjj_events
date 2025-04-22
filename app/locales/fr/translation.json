@@ -32,6 +32,7 @@
       "guest": "Invité"
     },
     "calendarView": "Vue Calendrier",
+    "addEvent": "Ajouter un événement",
     "backToEvents": "Retour aux événements",
     "noEvents": "Aucun événement trouvé pour la catégorie sélectionnée"
   },
