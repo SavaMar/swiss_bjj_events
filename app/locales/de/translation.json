@@ -28,8 +28,11 @@
       "registerUntil": "Anmeldung bis",
       "location": "Standort",
       "registerButton": "Jetzt anmelden",
-      "organizer": "Organisiert von"
+      "organizer": "Organisiert von",
+      "guest": "Gast"
     },
+    "calendarView": "Kalenderansicht",
+    "backToEvents": "Zurück zu Veranstaltungen",
     "noEvents": "Keine Veranstaltungen für die ausgewählte Kategorie gefunden"
   },
   "organisations": {

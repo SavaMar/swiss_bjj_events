@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import EventCard from "./components/EventCard";
+import Link from "next/link";
 import {
   Event,
   EventType,
@@ -9,10 +10,10 @@ import {
   SWISS_CANTON_NAMES,
 } from "./types/event";
 import { useLanguage } from "./context/LanguageContext";
-import { isPast, isThisMonth, parseISO, isValid, parse } from "date-fns";
+import { parseISO, isValid, parse } from "date-fns";
 import { supabase } from "../lib/supabase";
 
-type FilterType = EventType | "all" | "this-month";
+type FilterType = EventType | "all";
 
 // Bilingual canton names for commonly used cantons
 const BILINGUAL_CANTON_NAMES: Partial<
@@ -92,7 +93,7 @@ export default function Home() {
   const [selectedCanton, setSelectedCanton] = useState<SwissCanton | "all">(
     "all"
   );
-  const [includePastEvents, setIncludePastEvents] = useState(true);
+  const [includePastEvents, setIncludePastEvents] = useState(false);
   const { translations, language } = useLanguage();
 
   useEffect(() => {
@@ -138,21 +139,25 @@ export default function Home() {
     return SWISS_CANTON_NAMES[canton];
   }
 
+  // Helper function to safely check if a date is today or in the future
+  const isCurrentOrFutureDate = (dateStr: string) => {
+    try {
+      const date = parseDate(dateStr);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set to beginning of day for comparison
+      return isValid(date) && date >= today;
+    } catch {
+      return true; // If we can't parse the date, include it by default
+    }
+  };
+
   // Helper function to safely check if a date is in the past
   const isDateInPast = (dateStr: string) => {
     try {
       const date = parseDate(dateStr);
-      return isValid(date) && isPast(date);
-    } catch {
-      return false;
-    }
-  };
-
-  // Helper function to safely check if a date is in the current month
-  const isDateInCurrentMonth = (dateStr: string) => {
-    try {
-      const date = parseDate(dateStr);
-      return isValid(date) && isThisMonth(date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Set to beginning of day for comparison
+      return isValid(date) && date < today;
     } catch {
       return false;
     }
@@ -162,9 +167,6 @@ export default function Home() {
     .filter((event) => {
       // Type filtering
       if (selectedType === "all") return true;
-      if (selectedType === "this-month") {
-        return isDateInCurrentMonth(event.startDate);
-      }
       // Normalize the event type for consistent filtering
       return normalizeEventType(event.type) === selectedType;
     })
@@ -174,20 +176,11 @@ export default function Home() {
       return event.canton === selectedCanton;
     })
     .filter((event) => {
-      const isPastEvent = isDateInPast(event.startDate);
-
-      if (isPastEvent) {
-        // For past events, only include them if:
-        // 1. We want to include past events AND
-        // 2. Event is from the current month OR we're not filtering by "this-month"
-        return (
-          includePastEvents &&
-          (isDateInCurrentMonth(event.startDate) ||
-            selectedType !== "this-month")
-        );
+      // Show only current/future events unless includePastEvents is true
+      if (!includePastEvents) {
+        return isCurrentOrFutureDate(event.startDate);
       }
-
-      // Always include future events
+      // If includePastEvents is true, show all events
       return true;
     })
     .sort((a, b) => {
@@ -227,7 +220,35 @@ export default function Home() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-bold mb-8">{translations?.events?.title}</h1>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold">{translations?.events?.title}</h1>
+        <Link
+          href="/calendar"
+          className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+          aria-label="View calendar"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="mr-2"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          <span className="sm:inline">
+            {translations?.events?.calendarView || "Calendar View"}
+          </span>
+        </Link>
+      </div>
 
       {/* Filter buttons */}
       <div className="flex flex-wrap gap-2 mb-4">
@@ -240,16 +261,6 @@ export default function Home() {
           }`}
         >
           {translations?.events?.filter?.all}
-        </button>
-        <button
-          onClick={() => setSelectedType("this-month")}
-          className={`px-4 py-2 rounded-md ${
-            selectedType === "this-month"
-              ? "bg-gray-900 text-white"
-              : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-          }`}
-        >
-          {translations?.events?.filter?.thisMonth || "This Month"}
         </button>
         {(
           [
@@ -275,6 +286,29 @@ export default function Home() {
           </button>
         ))}
 
+        {/* Calendar view button - desktop only */}
+        <a
+          href="/calendar"
+          className="hidden md:flex px-4 py-2 rounded-md bg-blue-100 text-blue-800 hover:bg-blue-200 items-center"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-4 w-4 mr-1"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          {translations?.events?.calendarView || "Calendar View"}
+        </a>
+
         {/* Toggle for past events */}
         <button
           onClick={() => setIncludePastEvents(!includePastEvents)}
@@ -284,9 +318,7 @@ export default function Home() {
               : "bg-gray-100 text-gray-800 hover:bg-gray-200"
           }`}
         >
-          {includePastEvents
-            ? translations?.events?.filter?.includingPastEvents
-            : translations?.events?.filter?.hidePastEvents}
+          {includePastEvents ? "Hide Past Events" : "Show Past Events"}
         </button>
       </div>
 

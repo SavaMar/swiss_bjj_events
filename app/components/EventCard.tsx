@@ -203,18 +203,33 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
             </span>
           </p>
 
+          {/* Guest information - only for seminar events */}
+          {normalizedType === "seminar" && event.guest_name && (
+            <p className="flex items-center">
+              <span className="font-medium w-20 flex-shrink-0 xl:w-16">
+                {/* @ts-expect-error - Guest might not be in the translation type yet */}
+                {translations?.events?.card?.guest || "Guest"}:
+              </span>
+              {event.guest_link ? (
+                <a
+                  href={event.guest_link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                >
+                  {event.guest_name}
+                </a>
+              ) : (
+                <span>{event.guest_name}</span>
+              )}
+            </p>
+          )}
+
           <p className="flex items-center">
             <span className="font-medium w-20 flex-shrink-0 xl:w-16">
               {translations?.events?.card?.registerUntil}:
             </span>
             <span>{formatDate(event.registerUntil)}</span>
-          </p>
-
-          <p className="flex items-center">
-            <span className="font-medium w-20 flex-shrink-0 xl:w-16">
-              Canton:
-            </span>
-            <span>{cantonName}</span>
           </p>
 
           <p className="flex items-start">

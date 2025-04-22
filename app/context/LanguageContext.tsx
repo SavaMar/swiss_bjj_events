@@ -36,6 +36,8 @@ interface Translations {
       organizer: string;
       pastEventButton?: string;
     };
+    calendarView: string;
+    backToEvents: string;
     noEvents: string;
   };
   organisations?: {

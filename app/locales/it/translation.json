@@ -28,8 +28,11 @@
       "registerUntil": "Registrazione fino al",
       "location": "Luogo",
       "registerButton": "Registrati Ora",
-      "organizer": "Organizzato da"
+      "organizer": "Organizzato da",
+      "guest": "Ospite"
     },
+    "calendarView": "Vista Calendario",
+    "backToEvents": "Torna agli eventi",
     "noEvents": "Nessun evento trovato per la categoria selezionata"
   },
   "organisations": {

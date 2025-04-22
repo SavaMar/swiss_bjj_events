@@ -28,8 +28,11 @@
       "registerUntil": "Register until",
       "location": "Location",
       "registerButton": "Register Now",
-      "organizer": "Organized by"
+      "organizer": "Organized by",
+      "guest": "Guest"
     },
+    "calendarView": "Calendar View",
+    "backToEvents": "Back to Events",
     "noEvents": "No events found for the selected category"
   },
   "organisations": {

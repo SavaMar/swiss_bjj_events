@@ -86,7 +86,7 @@ const Navbar = () => {
                     height={24}
                     className="rounded"
                   />
-                  <span>{"Support project"}</span>
+                  <span>Support project</span>
                   <HeartHandshake className="h-4 w-4 ml-1" />
                 </button>
               </a>
@@ -121,6 +121,26 @@ const Navbar = () => {
 
           {/* Mobile menu button */}
           <div className="sm:hidden flex items-center">
+            {/* Mobile language switcher */}
+            <div className="flex mr-3 space-x-1 border rounded-md p-0.5 bg-gray-50">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => {
+                    setLanguage(lang.code as "en" | "de" | "fr" | "it");
+                    if (isOpen) setIsOpen(false);
+                  }}
+                  className={`text-xs font-medium px-2 py-1 rounded-md transition-colors ${
+                    language === lang.code
+                      ? "bg-gray-900 text-white"
+                      : "text-gray-700 hover:bg-gray-200"
+                  }`}
+                  aria-label={`Switch language to ${lang.name}`}
+                >
+                  {lang.code.toUpperCase()}
+                </button>
+              ))}
+            </div>
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-900 hover:text-gray-500 focus:outline-none"
@@ -193,33 +213,10 @@ const Navbar = () => {
                   height={24}
                   className="rounded"
                 />
-                <span>{"Support project"}</span>
+                <span>Support project</span>
                 <HeartHandshake className="h-4 w-4 ml-1" />
               </button>
             </a>
-            <div className="mt-4 px-3">
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex items-center space-x-1 w-full px-3 py-2 rounded-md text-sm font-medium text-gray-900 hover:bg-gray-100">
-                  <span>{currentLanguage?.name}</span>
-                  <ChevronDown className="h-4 w-4" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="bg-white border border-gray-200 shadow-md rounded-md">
-                  {languages.map((lang) => (
-                    <DropdownMenuItem
-                      key={lang.code}
-                      onClick={() =>
-                        setLanguage(lang.code as "en" | "de" | "fr" | "it")
-                      }
-                      className={`${
-                        language === lang.code ? "bg-gray-100" : ""
-                      } hover:bg-gray-100 transition-colors cursor-pointer`}
-                    >
-                      {lang.name}
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
           </div>
         </div>
       )}

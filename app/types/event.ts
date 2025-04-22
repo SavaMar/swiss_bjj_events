@@ -49,6 +49,8 @@ export interface Event {
   endDate: string;
   startTime: string;
   endTime: string;
+  guest_name?: string;
+  guest_link?: string;
 }
 
 export const EVENT_TYPE_COLORS: Record<EventType, string> = {
