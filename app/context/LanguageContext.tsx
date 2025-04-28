@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 type Language = "en" | "de" | "fr" | "it";
 
@@ -8,7 +9,7 @@ interface Translations {
   navigation: {
     events: string;
     dojos: string;
-    brands: string;
+    articles: string;
     contact: string;
     organisations: string;
   };
@@ -124,6 +125,34 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [translations, setTranslations] = useState<Translations>(
     {} as Translations
   );
+  const [isClient, setIsClient] = useState(false);
+  const pathname = usePathname();
+
+  // Set isClient flag after hydration
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Effect to detect language from URL path - only run on client
+  useEffect(() => {
+    if (!isClient || !pathname) return;
+
+    const pathSegments = pathname.split("/").filter(Boolean);
+    if (pathSegments.length > 0) {
+      const firstSegment = pathSegments[0];
+      if (
+        firstSegment === "en" ||
+        firstSegment === "de" ||
+        firstSegment === "fr" ||
+        firstSegment === "it"
+      ) {
+        // Only set language if it's different from current to avoid unnecessary rerenders
+        if (language !== firstSegment) {
+          setLanguage(firstSegment as Language);
+        }
+      }
+    }
+  }, [pathname, language, isClient]);
 
   useEffect(() => {
     // Load translations for the current language

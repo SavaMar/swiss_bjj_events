@@ -7,7 +7,7 @@ import { HeartHandshake } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { translations } = useLanguage();
+  const { translations, language } = useLanguage();
 
   const supportLink =
     "https://go.twint.ch/1/e/tw?tw=acq.8Se8HLqcRD2xXAosggSCW4fNjeLkaz61TLijTxqo6cVKG2e-WVD9I-bxAST4IOD9";
@@ -67,8 +67,11 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/brands" className="text-gray-300 hover:text-white">
-                  {translations?.navigation?.brands || "Local Brands"}
+                <Link
+                  href={`/${language}/articles`}
+                  className="text-gray-300 hover:text-white"
+                >
+                  {translations?.navigation?.articles || "Articles"}
                 </Link>
               </li>
               <li>

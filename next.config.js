@@ -4,10 +4,22 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Configure allowed image domains
+  // Configure allowed image domains with remotePatterns (more secure approach)
   images: {
-    domains: ["filedn.com", "play-lh.googleusercontent.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "filedn.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "play-lh.googleusercontent.com",
+        pathname: "**",
+      },
+    ],
   },
+  // i18n configuration removed as it's not compatible with App Router
 };
 
 module.exports = nextConfig;
