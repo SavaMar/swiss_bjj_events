@@ -168,6 +168,30 @@ export default function ArticlesPage() {
           : "BJJ Articles"}
       </h1>
 
+      <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mb-8 rounded">
+        <p className="text-blue-800">
+          {language === "en"
+            ? "Share your knowledge with the BJJ community! Send us your article in any language via Google Doc to "
+            : language === "de"
+            ? "Teilen Sie Ihr Wissen mit der BJJ-Community! Senden Sie uns Ihren Artikel in beliebiger Sprache als Google Doc an "
+            : language === "fr"
+            ? "Partagez vos connaissances avec la communauté BJJ ! Envoyez-nous votre article dans la langue de votre choix via Google Doc à "
+            : language === "it"
+            ? "Condividi le tue conoscenze con la comunità BJJ! Inviaci il tuo articolo in qualsiasi lingua tramite Google Doc a "
+            : "Share your knowledge with the BJJ community! Send us your article in any language via Google Doc to "}
+          <span className="font-bold text-red-600">swissbjj.ch@gmail.com</span>
+          {language === "en"
+            ? " and help others grow."
+            : language === "de"
+            ? " und helfen Sie anderen, sich weiterzuentwickeln."
+            : language === "fr"
+            ? " et aidez les autres à progresser."
+            : language === "it"
+            ? " e aiuta gli altri a crescere."
+            : " and help others grow."}
+        </p>
+      </div>
+
       {/* Tags filter */}
       {tags.length > 0 && (
         <div className="mb-8">
