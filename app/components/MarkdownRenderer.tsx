@@ -66,11 +66,20 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
           img: ({ src, alt }) => {
             if (!src) return null;
 
+            // Base URL for article images
+            const imageBaseUrl =
+              "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/";
+
+            // Convert relative URLs to absolute using the base URL
+            const imageUrl = src.startsWith("http")
+              ? src
+              : `${imageBaseUrl}${src}`;
+
             return (
               <div className="my-6">
                 <div className="relative w-full" style={{ height: "400px" }}>
                   <Image
-                    src={src}
+                    src={imageUrl}
                     alt={alt || ""}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"

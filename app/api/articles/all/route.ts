@@ -65,7 +65,11 @@ function getAllArticles(language: string = "en"): MultilingualArticle[] {
         author: data.author,
         date: data.date,
         tags: data.tags || [],
-        coverImage: data.coverImage,
+        coverImage: data.coverImage
+          ? data.coverImage.startsWith("http")
+            ? data.coverImage
+            : `https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/${data.coverImage}`
+          : undefined,
         content: content,
         language,
         translations: data.translations || {},
