@@ -5,6 +5,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { LanguageProvider } from "./context/LanguageContext";
 import { Analytics } from "@vercel/analytics/react";
+import { Toaster } from "react-hot-toast";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import NewsletterWrapper from "./components/NewsletterWrapper";
+import NewsletterBanner from "./components/NewsletterBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -54,9 +58,13 @@ export default function RootLayout({
         <LanguageProvider>
           <Navbar />
           <main className="flex-grow">{children}</main>
+          <NewsletterBanner />
           <Footer />
+          <NewsletterWrapper />
+          <Toaster />
         </LanguageProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

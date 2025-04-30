@@ -7,12 +7,12 @@ import { ArrowLeft } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import { de, fr, it } from "date-fns/locale";
 import { useLanguage } from "../../../context/LanguageContext";
-import ReactMarkdown from "react-markdown";
 import {
   fetchArticleBySlug,
   fetchArticleTranslations,
 } from "../../../lib/articles";
 import ArticleSeo from "../../../components/ArticleSeo";
+import MarkdownRenderer from "../../../components/MarkdownRenderer";
 
 // Import the article interface without the server functions
 type MultilingualArticle = {
@@ -296,8 +296,8 @@ export default function ArticlePage() {
         </div>
 
         {/* Article content */}
-        <div className="prose max-w-none">
-          <ReactMarkdown>{article.content || ""}</ReactMarkdown>
+        <div className="markdown-content">
+          <MarkdownRenderer content={article.content || ""} />
         </div>
       </div>
     </>

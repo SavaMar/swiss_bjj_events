@@ -50,6 +50,8 @@ When looking for a BJJ gym in Switzerland, consider the following factors:
 
 Monthly membership at BJJ gyms in Switzerland typically ranges from CHF 100-200, depending on the location and number of classes offered.
 
+![BJJ training costs in Switzerland](https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80)
+
 ## Competitions in Switzerland
 
 Once you've been training for a while, you might want to test your skills in competition. Switzerland hosts several BJJ tournaments throughout the year that are open to all skill levels.

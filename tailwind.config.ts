@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import typography from "@tailwindcss/typography";
 
 const config: Config = {
   content: [
@@ -55,9 +56,41 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: "none",
+            "h1, h2, h3, h4, h5, h6": {
+              marginTop: "2em",
+              marginBottom: "0.5em",
+            },
+            "p, ul, ol": {
+              marginTop: "1.25em",
+              marginBottom: "1.25em",
+            },
+            "ul, ol": {
+              paddingLeft: "1.25em",
+            },
+            li: {
+              marginTop: "0.5em",
+              marginBottom: "0.5em",
+            },
+            img: {
+              marginTop: "2em",
+              marginBottom: "2em",
+            },
+            blockquote: {
+              fontStyle: "italic",
+              color: "inherit",
+              borderLeftColor: "hsl(var(--border))",
+              opacity: 0.9,
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [typography],
 };
 
 export default config;
