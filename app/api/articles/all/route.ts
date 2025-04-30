@@ -66,7 +66,7 @@ function getAllArticles(language: string = "en"): MultilingualArticle[] {
         date: data.date,
         tags: data.tags || [],
         coverImage: data.coverImage,
-        content: data.includeContent ? content : undefined,
+        content: content,
         language,
         translations: data.translations || {},
       };

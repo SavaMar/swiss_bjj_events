@@ -264,7 +264,7 @@ export default function ArticlePage() {
                     <Link
                       key={translation.language}
                       href={`/${translation.language}/articles/${translation.slug}`}
-                      className="px-3 py-1 text-sm bg-gray-100 text-gray-800 rounded-full hover:bg-gray-200"
+                      className="px-3 py-1 text-sm bg-blue-700 text-white rounded-md hover:bg-blue-900"
                     >
                       {translation.language === "en"
                         ? "English"

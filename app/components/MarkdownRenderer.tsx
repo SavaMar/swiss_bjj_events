@@ -3,164 +3,208 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
 import Link from "next/link";
-import { ComponentProps } from "react";
+import Image from "next/image";
 
 interface MarkdownRendererProps {
   content: string;
 }
 
-// Types for ReactMarkdown components
-type ComponentPropsWithoutNode<T extends keyof JSX.IntrinsicElements> = Omit<
-  ComponentProps<T>,
-  "node"
-> & { children?: React.ReactNode };
-
 export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
-  const components = {
-    // Customizing headings
-    h1: (props: ComponentPropsWithoutNode<"h1">) => (
-      <h1 className="text-3xl font-bold mt-8 mb-4" {...props} />
-    ),
-    h2: (props: ComponentPropsWithoutNode<"h2">) => (
-      <h2 className="text-2xl font-bold mt-8 mb-3" {...props} />
-    ),
-    h3: (props: ComponentPropsWithoutNode<"h3">) => (
-      <h3 className="text-xl font-bold mt-6 mb-3" {...props} />
-    ),
-    h4: (props: ComponentPropsWithoutNode<"h4">) => (
-      <h4 className="text-lg font-semibold mt-6 mb-2" {...props} />
-    ),
-    h5: (props: ComponentPropsWithoutNode<"h5">) => (
-      <h5 className="text-base font-semibold mt-4 mb-2" {...props} />
-    ),
-    h6: (props: ComponentPropsWithoutNode<"h6">) => (
-      <h6 className="text-base font-medium mt-4 mb-2" {...props} />
-    ),
-
-    // Paragraphs and text
-    p: (props: ComponentPropsWithoutNode<"p">) => (
-      <p className="my-4 leading-relaxed" {...props} />
-    ),
-
-    // Links
-    a: ({
-      href,
-      ...props
-    }: ComponentPropsWithoutNode<"a"> & { href?: string }) => {
-      const isInternal = href && !href.startsWith("http");
-      if (isInternal) {
-        return (
-          <Link
-            href={href}
-            className="text-blue-600 hover:underline"
-            {...props}
-          />
-        );
-      }
-      return (
-        <a
-          href={href}
-          className="text-blue-600 hover:underline"
-          target="_blank"
-          rel="noopener noreferrer"
-          {...props}
-        />
-      );
-    },
-
-    // Lists
-    ul: (props: ComponentPropsWithoutNode<"ul">) => (
-      <ul className="list-disc pl-6 my-4" {...props} />
-    ),
-    ol: (props: ComponentPropsWithoutNode<"ol">) => (
-      <ol className="list-decimal pl-6 my-4" {...props} />
-    ),
-    li: (props: ComponentPropsWithoutNode<"li">) => (
-      <li className="mt-2" {...props} />
-    ),
-
-    // Code blocks
-    code: ({
-      inline,
-      children,
-      ...props
-    }: ComponentPropsWithoutNode<"code"> & { inline?: boolean }) => {
-      if (inline) {
-        return (
-          <code
-            className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono"
-            {...props}
-          >
-            {children}
-          </code>
-        );
-      }
-      return (
-        <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto my-4">
-          <code className="block font-mono text-sm" {...props}>
-            {children}
-          </code>
-        </pre>
-      );
-    },
-
-    // Blockquotes
-    blockquote: (props: ComponentPropsWithoutNode<"blockquote">) => (
-      <blockquote
-        className="border-l-4 border-gray-300 pl-4 py-1 my-4 text-gray-700 italic"
-        {...props}
-      />
-    ),
-
-    // Images
-    img: ({
-      src,
-      alt,
-      ...props
-    }: ComponentPropsWithoutNode<"img"> & { src?: string; alt?: string }) => {
-      if (!src) return null;
-
-      return (
-        <div className="my-6">
-          <img
-            src={src}
-            alt={alt || ""}
-            className="mx-auto rounded-lg max-w-full h-auto"
-            loading="lazy"
-            {...props}
-          />
-          {alt && (
-            <p className="text-center text-sm text-gray-500 mt-2">{alt}</p>
-          )}
-        </div>
-      );
-    },
-
-    // Tables
-    table: (props: ComponentPropsWithoutNode<"table">) => (
-      <div className="overflow-x-auto my-6">
-        <table className="w-full border-collapse" {...props} />
-      </div>
-    ),
-    thead: (props: ComponentPropsWithoutNode<"thead">) => <thead {...props} />,
-    tbody: (props: ComponentPropsWithoutNode<"tbody">) => <tbody {...props} />,
-    tr: (props: ComponentPropsWithoutNode<"tr">) => (
-      <tr className="border-b" {...props} />
-    ),
-    th: (props: ComponentPropsWithoutNode<"th">) => (
-      <th className="py-2 px-4 text-left font-semibold bg-gray-50" {...props} />
-    ),
-    td: (props: ComponentPropsWithoutNode<"td">) => (
-      <td className="py-2 px-4 border-r last:border-r-0" {...props} />
-    ),
-
-    // Horizontal rule
-    hr: () => <hr className="my-8 border-t border-gray-300" />,
-  };
-
   return (
     <div className="markdown-content">
-      <ReactMarkdown components={components}>{content || ""}</ReactMarkdown>
+      <ReactMarkdown
+        components={{
+          // Customizing headings
+          h1: ({ children, ...props }) => (
+            <h1 className="text-3xl font-bold mt-8 mb-4" {...props}>
+              {children}
+            </h1>
+          ),
+          h2: ({ children, ...props }) => (
+            <h2 className="text-2xl font-bold mt-8 mb-3" {...props}>
+              {children}
+            </h2>
+          ),
+          h3: ({ children, ...props }) => (
+            <h3 className="text-xl font-bold mt-6 mb-3" {...props}>
+              {children}
+            </h3>
+          ),
+          h4: ({ children, ...props }) => (
+            <h4 className="text-lg font-semibold mt-6 mb-2" {...props}>
+              {children}
+            </h4>
+          ),
+          h5: ({ children, ...props }) => (
+            <h5 className="text-base font-semibold mt-4 mb-2" {...props}>
+              {children}
+            </h5>
+          ),
+          h6: ({ children, ...props }) => (
+            <h6 className="text-base font-medium mt-4 mb-2" {...props}>
+              {children}
+            </h6>
+          ),
+
+          // Paragraphs with special handling for images
+          p: ({ children }) => {
+            // Check if children contains an image
+            const hasImage = React.Children.toArray(children).some(
+              (child) => React.isValidElement(child) && child.type === "img"
+            );
+
+            // If there's an image, return the children directly without wrapping in p
+            if (hasImage) {
+              return <>{children}</>;
+            }
+
+            // Regular paragraph
+            return <p className="my-4 leading-relaxed">{children}</p>;
+          },
+
+          // Image component
+          img: ({ src, alt }) => {
+            if (!src) return null;
+
+            return (
+              <div className="my-6">
+                <div className="relative w-full" style={{ height: "400px" }}>
+                  <Image
+                    src={src}
+                    alt={alt || ""}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 70vw"
+                    className="mx-auto object-contain rounded-lg"
+                    loading="eager"
+                    priority={true}
+                    quality={90}
+                  />
+                </div>
+                {alt && (
+                  <div className="text-center text-sm text-gray-500 mt-2">
+                    {alt}
+                  </div>
+                )}
+              </div>
+            );
+          },
+
+          // Links
+          a: ({ href, children, ...props }) => {
+            const isInternal = href && !href.startsWith("http");
+            if (isInternal) {
+              return (
+                <Link
+                  href={href || ""}
+                  className="text-blue-600 hover:underline"
+                  {...props}
+                >
+                  {children}
+                </Link>
+              );
+            }
+            return (
+              <a
+                href={href}
+                className="text-blue-600 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+                {...props}
+              >
+                {children}
+              </a>
+            );
+          },
+
+          // Lists
+          ul: ({ children, ...props }) => (
+            <ul className="list-disc pl-6 my-4" {...props}>
+              {children}
+            </ul>
+          ),
+          ol: ({ children, ...props }) => (
+            <ol className="list-decimal pl-6 my-4" {...props}>
+              {children}
+            </ol>
+          ),
+          li: ({ children, ...props }) => (
+            <li className="mt-2" {...props}>
+              {children}
+            </li>
+          ),
+
+          // Code blocks - use any since inline is a custom prop
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          code: ({ children, ...props }: any) => {
+            const { inline } = props;
+            if (inline) {
+              return (
+                <code
+                  className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono"
+                  {...props}
+                >
+                  {children}
+                </code>
+              );
+            }
+            return (
+              <pre className="bg-gray-100 p-4 rounded-md overflow-x-auto my-4">
+                <code className="block font-mono text-sm" {...props}>
+                  {children}
+                </code>
+              </pre>
+            );
+          },
+
+          // Blockquotes
+          blockquote: ({ children, ...props }) => (
+            <blockquote
+              className="border-l-4 border-gray-300 pl-4 py-1 my-4 text-gray-700 italic"
+              {...props}
+            >
+              {children}
+            </blockquote>
+          ),
+
+          // Tables
+          table: ({ children, ...props }) => (
+            <div className="overflow-x-auto my-6">
+              <table className="w-full border-collapse" {...props}>
+                {children}
+              </table>
+            </div>
+          ),
+          thead: ({ children, ...props }) => (
+            <thead {...props}>{children}</thead>
+          ),
+          tbody: ({ children, ...props }) => (
+            <tbody {...props}>{children}</tbody>
+          ),
+          tr: ({ children, ...props }) => (
+            <tr className="border-b" {...props}>
+              {children}
+            </tr>
+          ),
+          th: ({ children, ...props }) => (
+            <th
+              className="py-2 px-4 text-left font-semibold bg-gray-50"
+              {...props}
+            >
+              {children}
+            </th>
+          ),
+          td: ({ children, ...props }) => (
+            <td className="py-2 px-4 border-r last:border-r-0" {...props}>
+              {children}
+            </td>
+          ),
+
+          // Horizontal rule
+          hr: () => <hr className="my-8 border-t border-gray-300" />,
+        }}
+      >
+        {content || ""}
+      </ReactMarkdown>
     </div>
   );
 }

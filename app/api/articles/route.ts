@@ -66,7 +66,7 @@ function getArticleBySlug(
       date: data.date,
       tags: data.tags || [],
       coverImage: data.coverImage,
-      content,
+      content: content,
       language,
       translations: data.translations || {},
     };

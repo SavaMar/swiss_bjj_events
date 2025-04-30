@@ -75,8 +75,14 @@ const NewsletterPopup = () => {
 
   console.log("Rendering popup");
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-sm">
-      <div className="relative bg-white p-6 rounded-lg max-w-md w-full mx-4 shadow-xl">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm"
+      onClick={handleClose}
+    >
+      <div
+        className="relative bg-white p-6 rounded-lg max-w-md w-full mx-4 shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button
           onClick={handleClose}
           className="absolute top-3 right-3 text-gray-500 hover:text-gray-700"

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "../../context/LanguageContext";
 import { format, parseISO } from "date-fns";
 import { de, fr, it } from "date-fns/locale";
@@ -228,10 +229,13 @@ export default function ArticlesPage() {
             <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow h-full flex flex-col">
               {article.coverImage && (
                 <div className="aspect-video relative">
-                  <img
+                  <Image
                     src={article.coverImage}
                     alt={article.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    className="object-cover"
+                    priority={false}
                   />
                 </div>
               )}

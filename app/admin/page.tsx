@@ -5,6 +5,7 @@ import { supabase } from "../../lib/supabase";
 import { Event } from "../types/event";
 import { Session } from "@supabase/supabase-js";
 import { format, parse, parseISO, isValid } from "date-fns";
+import Link from "next/link";
 
 export default function AdminPage() {
   const [email, setEmail] = useState("");
@@ -221,12 +222,14 @@ export default function AdminPage() {
 
       <div className="mb-6">
         <h2 className="text-xl font-semibold mb-4">Manage Events</h2>
-        <a
-          href="/admin/events/new"
-          className="inline-block bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
-          Add New Event
-        </a>
+        <div className="mt-4">
+          <Link
+            href="/admin/events/new/"
+            className="inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Create New Event
+          </Link>
+        </div>
       </div>
 
       {error && (
