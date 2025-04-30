@@ -4,7 +4,7 @@ excerpt: "Wenn du in dieser Denkweise stecken bleibst, verpasst du etwas viel Wi
 author: "BJJ LAB"
 date: "2025-04-30"
 tags: ["Mindset", "Wettkampf", "Lernen"]
-coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png"
+coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png"
 translations:
   en:
     slug: "play-more-learn-faster"
@@ -31,7 +31,7 @@ Lernen passiert, wenn du dich aus deiner Komfortzone wagst. Wenn du einen neuen 
 
 Wenn du dich nur aufs Gewinnen konzentrierst, bremst du deinen eigenen Fortschritt.
 
-![BJJ Lab Training](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png)
+![BJJ Lab Training](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png)
 
 ## Warum spielerisches Training dich schneller lernen lässt
 

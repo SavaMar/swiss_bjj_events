@@ -68,7 +68,7 @@ function getAllArticles(language: string = "en"): MultilingualArticle[] {
         coverImage: data.coverImage
           ? data.coverImage.startsWith("http")
             ? data.coverImage
-            : `https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/${data.coverImage}`
+            : `https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/${data.coverImage}`
           : undefined,
         content: content,
         language,

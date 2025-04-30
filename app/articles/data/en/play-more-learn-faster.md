@@ -4,7 +4,7 @@ excerpt: "If you stay stuck in that mindset, you miss something much bigger: lea
 author: "BJJ LAB"
 date: "2025-04-30"
 tags: ["mindset", "competition", "learning"]
-coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png"
+coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png"
 translations:
   de:
     slug: "mehr-spielen-schneller-lernen"
@@ -30,7 +30,7 @@ Learning happens when you step outside your comfort zone. When you try a new gua
 
 If you only focus on winning, you slow down your own progress.
 
-![BJJ Lab Training](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png)
+![BJJ Lab Training](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png)
 
 ## How Playfulness Helps You Learn
 

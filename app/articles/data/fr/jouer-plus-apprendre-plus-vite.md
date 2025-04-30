@@ -4,7 +4,7 @@ excerpt: "Si vous restez bloqué dans cet état d'esprit, vous passez à côté 
 author: "BJJ LAB"
 date: "2025-04-30"
 tags: ["État d'esprit", "Compétition", "Apprentissage"]
-coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png"
+coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png"
 translations:
   en:
     slug: "play-more-learn-faster"
@@ -31,7 +31,7 @@ L'apprentissage se produit lorsque vous sortez de votre zone de confort. Quand v
 
 Si vous ne vous concentrez que sur la victoire, vous freinez vos propres progrès.
 
-![Entraînement au BJJ Lab](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png)
+![Entraînement au BJJ Lab](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png)
 
 ## Pourquoi l'approche ludique accélère l'apprentissage
 

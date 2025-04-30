@@ -4,7 +4,7 @@ excerpt: "Se rimani bloccato in questa mentalità, ti perdi qualcosa di molto pi
 author: "BJJ LAB"
 date: "2025-04-30"
 tags: ["Mentalità", "Competizione", "Apprendimento"]
-coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png"
+coverImage: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png"
 translations:
   en:
     slug: "play-more-learn-faster"
@@ -31,7 +31,7 @@ L'apprendimento avviene quando esci dalla tua zona di comfort. Quando provi un n
 
 Se ti concentri solo sul vincere, rallenti il tuo stesso progresso.
 
-![Allenamento al BJJ Lab](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/bjjLab.png)
+![Allenamento al BJJ Lab](https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/bjjLab.png)
 
 ## Perché l'approccio giocoso ti fa imparare più velocemente
 
