@@ -66,14 +66,10 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
           img: ({ src, alt }) => {
             if (!src) return null;
 
-            // Base URL for article images
-            const imageBaseUrl =
-              "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/";
-
-            // Convert relative URLs to absolute using the base URL
+            // Use the exact URL if it's already absolute
             const imageUrl = src.startsWith("http")
               ? src
-              : `${imageBaseUrl}${src}`;
+              : `https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjjArticles/${src}`;
 
             return (
               <div className="my-6">
@@ -87,6 +83,7 @@ export default function MarkdownRenderer({ content }: MarkdownRendererProps) {
                     loading="eager"
                     priority={true}
                     quality={90}
+                    unoptimized={src.endsWith(".svg")} // Disable optimization for SVG files
                   />
                 </div>
                 {alt && (
