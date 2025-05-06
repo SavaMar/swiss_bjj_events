@@ -207,6 +207,7 @@ export default function CalendarView() {
             onSelect={handleDaySelect}
             today={new Date()}
             className="border rounded-md p-4 w-full mx-auto"
+            weekStartsOn={1}
             classNames={{
               day_today: "bg-blue-100 text-blue-800 font-bold",
               months: "w-full",
