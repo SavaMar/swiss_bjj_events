@@ -9,11 +9,11 @@ interface Translations {
   navigation: {
     events: string;
     dojos: string;
+    organisations: string;
     articles: string;
     contact: string;
-    organisations: string;
   };
-  events: {
+  events?: {
     title: string;
     filter: {
       all: string;
@@ -35,12 +35,18 @@ interface Translations {
       location: string;
       registerButton: string;
       organizer: string;
-      pastEventButton?: string;
+      guest: string;
     };
     calendarView: string;
     addEvent: string;
     backToEvents: string;
     noEvents: string;
+  };
+  footer: {
+    description: string;
+    quickLinks: string;
+    followUs: string;
+    rights: string;
   };
   organisations?: {
     title: string;
@@ -48,65 +54,18 @@ interface Translations {
     visitWebsite: string;
     followInstagram: string;
     viewRules: string;
-    ajp: {
+    ajp?: {
       description: string;
     };
-    adcc: {
+    adcc?: {
       description: string;
     };
-    sbjjnf: {
+    sbjjnf?: {
       description: string;
     };
-    grapplingindustries: {
+    grapplingindustries?: {
       description: string;
     };
-  };
-  contact: {
-    title: string;
-    intro: string;
-    bulletPoints: string[];
-    formIntro: string;
-    nameLabel: string;
-    emailLabel: string;
-    subjectLabel: string;
-    messageLabel: string;
-    submitButton: string;
-  };
-  dojos: {
-    title: string;
-    explanation: {
-      title: string;
-      womans: string;
-      kids: string;
-      advanced: string;
-      open_mat: string;
-      free_guest: string;
-    };
-    filter: {
-      byCantonLabel: string;
-      byZipCodeLabel: string;
-      byFeaturesLabel: string;
-      allCantons: string;
-      allZipCodes: string;
-      clearFilters: string;
-    };
-    features: {
-      womans: string;
-      kids: string;
-      advanced: string;
-      open_mat: string;
-      free_guest: string;
-    };
-    trial: string;
-    also_offers: string;
-    visitWebsite: string;
-    noDojos: string;
-  };
-  footer: {
-    description: string;
-    quickLinks: string;
-    followUs: string;
-    rights: string;
   };
 }
 
@@ -120,50 +79,90 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined
 );
 
+// Helper function to get language from pathname
+const getLanguageFromPath = (pathname: string): Language => {
+  const pathSegments = pathname.split("/").filter(Boolean);
+  if (pathSegments.length > 0) {
+    const firstSegment = pathSegments[0];
+    if (["en", "de", "fr", "it"].includes(firstSegment)) {
+      return firstSegment as Language;
+    }
+  }
+  return "en";
+};
+
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+  const pathname = usePathname();
+  const initialLanguage = getLanguageFromPath(pathname || "");
+
+  const [language, setLanguage] = useState<Language>(initialLanguage);
   const [translations, setTranslations] = useState<Translations>(
     {} as Translations
   );
   const [isClient, setIsClient] = useState(false);
-  const pathname = usePathname();
 
   // Set isClient flag after hydration
   useEffect(() => {
     setIsClient(true);
   }, []);
 
+  // Load initial translations immediately
+  useEffect(() => {
+    const loadInitialTranslations = async () => {
+      try {
+        console.log(`Loading initial translations for ${initialLanguage}`);
+        const translations = await import(
+          `../locales/${initialLanguage}/translation.json`
+        );
+        setTranslations(translations.default);
+      } catch (error) {
+        console.error(
+          `Error loading initial translations for ${initialLanguage}:`,
+          error
+        );
+        // If the requested language fails, try English
+        if (initialLanguage !== "en") {
+          console.log("Falling back to English translations");
+          const englishTranslations = await import(
+            "../locales/en/translation.json"
+          );
+          setTranslations(englishTranslations.default);
+        }
+      }
+    };
+
+    loadInitialTranslations();
+  }, []);
+
   // Effect to detect language from URL path - only run on client
   useEffect(() => {
     if (!isClient || !pathname) return;
 
-    const pathSegments = pathname.split("/").filter(Boolean);
-    if (pathSegments.length > 0) {
-      const firstSegment = pathSegments[0];
-      if (
-        firstSegment === "en" ||
-        firstSegment === "de" ||
-        firstSegment === "fr" ||
-        firstSegment === "it"
-      ) {
-        // Only set language if it's different from current to avoid unnecessary rerenders
-        if (language !== firstSegment) {
-          setLanguage(firstSegment as Language);
-        }
-      }
+    const newLanguage = getLanguageFromPath(pathname);
+    if (language !== newLanguage) {
+      console.log(`Setting language to ${newLanguage} from URL`);
+      setLanguage(newLanguage);
     }
   }, [pathname, language, isClient]);
 
+  // Load translations when language changes
   useEffect(() => {
-    // Load translations for the current language
     const loadTranslations = async () => {
       try {
+        console.log(`Loading translations for ${language}`);
         const translations = await import(
           `../locales/${language}/translation.json`
         );
         setTranslations(translations.default);
       } catch (error) {
-        console.error("Error loading translations:", error);
+        console.error(`Error loading translations for ${language}:`, error);
+        if (language !== "en") {
+          console.log("Falling back to English translations");
+          const englishTranslations = await import(
+            "../locales/en/translation.json"
+          );
+          setTranslations(englishTranslations.default);
+        }
       }
     };
 

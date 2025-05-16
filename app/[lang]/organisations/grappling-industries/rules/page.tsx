@@ -31,25 +31,19 @@ export default function GrapplingIndustriesRulesPage() {
   const [article, setArticle] = React.useState<MultilingualArticle | null>(
     null
   );
-  const [error, setError] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     const loadContent = async () => {
       try {
-        console.log("Loading content for language:", language);
         const data = await fetchRuleBySlug(
-          "grapplingindustries-rules",
+          "grappling-industries-rules",
           language
         );
-        console.log("Fetched data:", data);
         if (data) {
           setArticle(data);
-        } else {
-          setError("No content found");
         }
       } catch (error) {
         console.error("Error loading Grappling Industries rules:", error);
-        setError(error instanceof Error ? error.message : "An error occurred");
       }
     };
 
@@ -65,8 +59,6 @@ export default function GrapplingIndustriesRulesPage() {
         <ArrowLeft size={16} className="mr-2" />
         Back to Organizations
       </Link>
-
-      {error && <div className="text-red-600 mb-4">Error: {error}</div>}
 
       {article && (
         <>

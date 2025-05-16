@@ -1,7 +1,7 @@
-import fs from "fs";
-import path from "path";
-import matter from "gray-matter";
 import { NextResponse } from "next/server";
+import path from "path";
+import fs from "fs";
+import matter from "gray-matter";
 
 // Define article interface with multilingual support
 export interface MultilingualArticle {
@@ -23,9 +23,35 @@ export interface MultilingualArticle {
   };
 }
 
-// Get the base directory for articles
-const getArticlesDirectory = (language: string) =>
-  path.join(process.cwd(), `app/articles/data/${language}`);
+// Get the base directory for organization rules
+const getOrganisationsDirectory = (language: string) =>
+  path.join(process.cwd(), `app/organisations/data/${language}`);
+
+// Map slugs to localized file names
+const getLocalizedFileName = (slug: string, language: string): string => {
+  const slugMap: { [key: string]: { [key: string]: string } } = {
+    "ajp-rules": {
+      de: "ajp-regeln",
+      fr: "regles-ajp",
+      it: "regole-ajp",
+      en: "ajp-rules",
+    },
+    "adcc-rules": {
+      de: "adcc-regeln",
+      fr: "regles-adcc",
+      it: "regole-adcc",
+      en: "adcc-rules",
+    },
+    "grapplingindustries-rules": {
+      de: "grapplingindustries-regeln",
+      fr: "regles-grapplingindustries",
+      it: "regole-grapplingindustries",
+      en: "grapplingindustries-rules",
+    },
+  };
+
+  return slugMap[slug]?.[language] || slug;
+};
 
 /**
  * Get article data by slug and language
@@ -36,8 +62,9 @@ function getArticleBySlug(
 ): MultilingualArticle | null {
   try {
     console.log(`Attempting to fetch article: ${slug} (${language})`);
-    const articlesDirectory = getArticlesDirectory(language);
-    const fullPath = path.join(articlesDirectory, `${slug}.md`);
+    const organisationsDirectory = getOrganisationsDirectory(language);
+    const localizedSlug = getLocalizedFileName(slug, language);
+    const fullPath = path.join(organisationsDirectory, `${localizedSlug}.md`);
 
     console.log(`Looking for file at: ${fullPath}`);
 
@@ -49,7 +76,7 @@ function getArticleBySlug(
         console.log(`Attempting to fetch English version for ${slug}`);
         const englishArticle = getArticleBySlug(slug, "en");
         if (englishArticle) {
-          // Update the language field to match the requested language
+          // Return the English version but with the requested language
           return {
             ...englishArticle,
             language,
@@ -99,7 +126,7 @@ function getArticleBySlug(
       console.log(`Attempting to fetch English version after error`);
       const englishArticle = getArticleBySlug(slug, "en");
       if (englishArticle) {
-        // Update the language field to match the requested language
+        // Return the English version but with the requested language
         return {
           ...englishArticle,
           language,

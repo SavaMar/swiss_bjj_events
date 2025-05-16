@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import NewsletterWrapper from "./components/NewsletterWrapper";
 import NewsletterBanner from "./components/NewsletterBanner";
+import DonationPopup from "./components/DonationPopup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -62,6 +63,7 @@ export default function RootLayout({
           <Footer />
           <NewsletterWrapper />
           <Toaster />
+          <DonationPopup />
         </LanguageProvider>
         <Analytics />
         <SpeedInsights />

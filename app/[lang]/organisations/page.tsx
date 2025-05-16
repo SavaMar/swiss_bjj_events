@@ -70,7 +70,7 @@ const organizations: Organization[] = [
 ];
 
 export default function OrganisationsPage() {
-  const { translations } = useLanguage();
+  const { language, translations } = useLanguage();
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -119,7 +119,7 @@ export default function OrganisationsPage() {
                   href={org.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center text-blue-600 hover:text-blue-800"
+                  className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
                 >
                   <ExternalLink size={16} className="mr-2" />
                   {translations?.organisations?.visitWebsite ||
@@ -131,7 +131,7 @@ export default function OrganisationsPage() {
                     href={org.instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center text-pink-600 hover:text-pink-800"
+                    className="flex items-center justify-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-md transition-colors"
                   >
                     <Instagram size={16} className="mr-2" />
                     {translations?.organisations?.followInstagram ||
@@ -140,8 +140,8 @@ export default function OrganisationsPage() {
                 )}
 
                 <Link
-                  href={org.rulesUrl}
-                  className="flex items-center text-green-600 hover:text-green-800"
+                  href={`/${language}${org.rulesUrl}`}
+                  className="flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors"
                 >
                   <Book size={16} className="mr-2" />
                   {translations?.organisations?.viewRules ||

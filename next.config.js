@@ -6,7 +6,7 @@ const nextConfig = {
   },
   // Configure allowed image domains with remotePatterns (more secure approach)
   images: {
-    domains: ["filedn.com"],
+    domains: ["filedn.com", "web-api.textin.com"],
     remotePatterns: [
       {
         protocol: "https",

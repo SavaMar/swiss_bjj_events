@@ -4,20 +4,48 @@ import React from "react";
 import { useLanguage } from "../../../../context/LanguageContext";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import MarkdownRenderer from "../../../../components/MarkdownRenderer";
+import { fetchRuleBySlug } from "../../../../lib/organisations";
 
-// Markdown content for each language
-const rulesContent = {
-  en: `
-    Comming Soon...
-  `,
-};
+interface MultilingualArticle {
+  id: string;
+  title: string;
+  excerpt: string;
+  author: string;
+  date: string;
+  slug: string;
+  tags: string[];
+  coverImage?: string;
+  content?: string;
+  language: string;
+  translations?: {
+    [key: string]: {
+      slug: string;
+      title: string;
+    };
+  };
+}
 
 export default function AdccRulesPage() {
   const { language } = useLanguage();
+  const [article, setArticle] = React.useState<MultilingualArticle | null>(
+    null
+  );
 
-  // Get the content based on language, defaulting to English
-  const content =
-    rulesContent[language as keyof typeof rulesContent] || rulesContent.en;
+  React.useEffect(() => {
+    const loadContent = async () => {
+      try {
+        const data = await fetchRuleBySlug("adcc-rules", language);
+        if (data) {
+          setArticle(data);
+        }
+      } catch (error) {
+        console.error("Error loading ADCC rules:", error);
+      }
+    };
+
+    loadContent();
+  }, [language]);
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -29,18 +57,20 @@ export default function AdccRulesPage() {
         Back to Organizations
       </Link>
 
-      <div className="prose max-w-none">
-        <div
-          dangerouslySetInnerHTML={{
-            __html: content
-              .replace(/\n/g, "<br>")
-              .replace(/^#{1,6}\s+(.*?)$/gm, (match, group) => {
-                const count = match.lastIndexOf("#") + 1;
-                return `<h${count}>${group}</h${count}>`;
-              }),
-          }}
-        />
-      </div>
+      {article && (
+        <>
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-2">{article.title}</h1>
+            {article.excerpt && (
+              <p className="text-gray-600">{article.excerpt}</p>
+            )}
+          </div>
+
+          <div className="prose max-w-none">
+            <MarkdownRenderer content={article.content || ""} />
+          </div>
+        </>
+      )}
     </div>
   );
 }
