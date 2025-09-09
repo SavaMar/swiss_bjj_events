@@ -1,4 +1,4 @@
-export type EventType =
+export type NewEventType =
   | "competition"
   | "womens"
   | "kids"
@@ -34,35 +34,26 @@ export type SwissCanton =
   | "GE"
   | "JU";
 
-export interface Event {
-  id: number;
+export interface NewEvent {
+  id?: number;
   name: string;
+  event_img?: string;
+  organizer_dojo?: number;
   organizer: string;
-  organizerUrl?: string;
-  registerUntil: string;
-  eventLink: string;
-  logoUrl: string;
+  registeruntil: string;
+  eventlink: string;
   canton: string;
   address: string;
-  type: EventType;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  guest_name?: string;
+  type: NewEventType;
+  startdate: string;
+  enddate: string;
+  starttime: string;
+  endtime: string;
+  organizerurl?: string;
   guest_link?: string;
-  dojo_id?: string;
-  dojo_logo?: string;
+  guest_name?: string;
+  created_at?: string;
 }
-
-export const EVENT_TYPE_COLORS: Record<EventType, string> = {
-  competition: "bg-red-100 text-red-800",
-  "open-mat": "bg-green-100 text-green-800",
-  womens: "bg-pink-100 text-pink-800",
-  seminar: "bg-cyan-100 text-cyan-800",
-  kids: "bg-amber-100 text-amber-500",
-  camp: "bg-purple-100 text-purple-800",
-};
 
 export const SWISS_CANTON_NAMES: Record<SwissCanton, string> = {
   ZH: "Zürich",

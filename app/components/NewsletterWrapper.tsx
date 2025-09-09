@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 
 // Dynamically import with no SSR
@@ -15,6 +16,12 @@ const NewsletterPopup = dynamic(() => import("./NewsletterPopup"), {
 export default function NewsletterWrapper() {
   const [mounted, setMounted] = useState(false);
   const [showDebugIndicator, setShowDebugIndicator] = useState(true);
+  const pathname = usePathname();
+
+  // Don't show newsletter popup on admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   useEffect(() => {
     console.log("NewsletterWrapper mounted");

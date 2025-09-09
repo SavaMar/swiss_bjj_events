@@ -1,14 +1,19 @@
 "use client";
 
-import { Event, EVENT_TYPE_COLORS, EventType } from "../types/event";
+import { NewEvent, NewEventType } from "../types/new-event";
+import { EventType, EVENT_TYPE_COLORS } from "../types/event";
 import { useLanguage } from "../context/LanguageContext";
 import { format, parseISO, parse, isValid } from "date-fns";
 import { de, fr, it } from "date-fns/locale";
 import Image from "next/image";
 
 interface EventCardProps {
-  event: Event;
+  event: NewEvent;
   isPast?: boolean;
+  dojoInfo?: {
+    website?: string;
+    address?: string;
+  };
 }
 
 const locales = {
@@ -19,7 +24,7 @@ const locales = {
 };
 
 // Map event types to border color classes
-const EVENT_BORDER_COLORS: Record<EventType, string> = {
+const EVENT_BORDER_COLORS: Record<NewEventType, string> = {
   competition: "border-red-500",
   "open-mat": "border-green-500",
   womens: "border-pink-500",
@@ -28,12 +33,22 @@ const EVENT_BORDER_COLORS: Record<EventType, string> = {
   camp: "border-teal-500",
 };
 
+// Map event types to background colors for photo fallback
+const EVENT_BG_COLORS: Record<NewEventType, string> = {
+  competition: "bg-red-100",
+  "open-mat": "bg-green-100",
+  womens: "bg-pink-100",
+  seminar: "bg-cyan-100",
+  kids: "bg-amber-100",
+  camp: "bg-teal-100",
+};
+
 // Normalize event type to handle case differences and other potential inconsistencies
-const normalizeEventType = (type: string): EventType => {
+const normalizeEventType = (type: string): NewEventType => {
   // Convert to lowercase and trim any whitespace
   const normalized = type.toLowerCase().trim();
 
-  // Map to valid EventType values
+  // Map to valid NewEventType values
   switch (normalized) {
     case "competition":
       return "competition";
@@ -64,7 +79,7 @@ const normalizeEventType = (type: string): EventType => {
   }
 };
 
-const EventCard = ({ event, isPast = false }: EventCardProps) => {
+const EventCard = ({ event, isPast = false, dojoInfo }: EventCardProps) => {
   const { language, translations } = useLanguage();
 
   // Base URL for all dojo logos
@@ -106,8 +121,8 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
     }
   };
 
-  const startDate = parseDate(event.startDate);
-  const endDate = parseDate(event.endDate);
+  const startDate = parseDate(event.startdate);
+  const endDate = parseDate(event.enddate);
 
   // Helper function to safely format dates with the correct locale
   const safeFormatDate = (date: Date, formatString: string) => {
@@ -122,7 +137,7 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
   };
 
   const dateDisplay =
-    event.startDate === event.endDate
+    event.startdate === event.enddate
       ? safeFormatDate(startDate, "MMMM d, yyyy")
       : `${safeFormatDate(startDate, "MMMM d")} - ${safeFormatDate(
           endDate,
@@ -141,8 +156,15 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
   const badgeColorClass =
     EVENT_TYPE_COLORS[normalizedType] || "bg-gray-100 text-gray-800";
 
-  // Use dojo_logo if available, otherwise use event.logoUrl
-  const logoUrl = event.dojo_logo ? getLogoUrl(event.dojo_logo) : event.logoUrl;
+  // Get organizer URL (use dojo website or organizerurl)
+  const organizerUrl = event.organizerurl || dojoInfo?.website || "";
+
+  // Get event address (use dojo address if event address is empty)
+  const eventAddress = event.address || dojoInfo?.address || "";
+
+  // Get event photo or create fallback
+  const eventPhoto = event.event_img;
+  const bgColorClass = EVENT_BG_COLORS[normalizedType] || "bg-gray-100";
 
   return (
     <div
@@ -150,6 +172,53 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
         isPast ? "opacity-70" : "hover:shadow-lg transition-shadow"
       } border-t-[7px] ${borderColorClass}`}
     >
+      {/* Event Photo or Color Block - Instagram Portrait (4:5 aspect ratio) */}
+      <div className="relative w-full" style={{ aspectRatio: "4/5" }}>
+        {eventPhoto ? (
+          <Image
+            src={eventPhoto}
+            alt={event.name}
+            fill
+            className="object-cover"
+            onError={(e) => {
+              // Hide the image on error and show color block instead
+              const target = e.target as HTMLImageElement;
+              target.style.display = "none";
+              const parent = target.parentElement;
+              if (parent) {
+                parent.innerHTML = `
+                  <div class="h-full w-full ${bgColorClass} flex items-center justify-center">
+                    <div class="text-center">
+                      <div class="text-4xl font-bold text-gray-600 mb-2">${normalizedType
+                        .charAt(0)
+                        .toUpperCase()}</div>
+                      <div class="text-sm text-gray-500">${
+                        translations?.events?.filter?.[normalizedType] ||
+                        normalizedType
+                      }</div>
+                    </div>
+                  </div>
+                `;
+              }
+            }}
+          />
+        ) : (
+          <div
+            className={`h-full w-full ${bgColorClass} flex items-center justify-center`}
+          >
+            <div className="text-center">
+              <div className="text-4xl font-bold text-gray-600 mb-2">
+                {normalizedType.charAt(0).toUpperCase()}
+              </div>
+              <div className="text-sm text-gray-500">
+                {translations?.events?.filter?.[normalizedType] ||
+                  normalizedType}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
       <div className="p-4 flex-grow flex flex-col">
         {/* Header */}
         <div className="flex flex-col mb-3 xl:mb-2">
@@ -166,34 +235,22 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
               {translations?.events?.filter?.[normalizedType] || normalizedType}
             </span>
           </div>
-          {/* Organizer with logo */}
+          {/* Organizer */}
           <div className="flex items-center mb-2">
-            {logoUrl && (
-              <div className="relative w-8 h-8 mr-2 flex-shrink-0 overflow-hidden rounded-full bg-gray-100 border border-gray-200">
-                <Image
-                  src={logoUrl}
-                  alt={event.organizer}
-                  fill
-                  sizes="32px"
-                  className="object-contain p-1"
-                  onError={(e) => {
-                    // Hide the image on error
-                    const target = e.target as HTMLImageElement;
-                    target.style.display = "none";
-                  }}
-                />
-              </div>
-            )}
             <div className="text-sm text-gray-600 italic flex-grow">
               {translations?.events?.card?.organizer || "Organized by"}:{" "}
-              <a
-                href={event.organizerUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline text-blue-600"
-              >
-                {event.organizer}
-              </a>
+              {organizerUrl ? (
+                <a
+                  href={organizerUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline text-blue-600"
+                >
+                  {event.organizer}
+                </a>
+              ) : (
+                <span>{event.organizer}</span>
+              )}
             </div>
           </div>
 
@@ -221,7 +278,7 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
               Time:
             </span>
             <span>
-              {event.startTime} - {event.endTime}
+              {event.starttime} - {event.endtime}
             </span>
           </p>
 
@@ -251,30 +308,34 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
             <span className="font-medium w-20 flex-shrink-0 xl:w-16">
               {translations?.events?.card?.registerUntil}:
             </span>
-            <span>{formatDate(event.registerUntil)}</span>
+            <span>{formatDate(event.registeruntil)}</span>
           </p>
 
           <p className="flex items-start">
             <span className="font-medium w-20 flex-shrink-0 xl:w-16">
               {translations?.events?.card?.location}:
             </span>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                event.address
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="line-clamp-2 text-blue-600 hover:text-blue-800 hover:underline"
-              title={event.address}
-            >
-              {event.address}
-            </a>
+            {eventAddress ? (
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                  eventAddress
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="line-clamp-2 text-blue-600 hover:text-blue-800 hover:underline"
+                title={eventAddress}
+              >
+                {eventAddress}
+              </a>
+            ) : (
+              <span className="text-gray-500 italic">Location TBD</span>
+            )}
           </p>
         </div>
         {/* Footer - always at the bottom */}
         <div className="pt-3 border-t border-gray-100 mt-auto">
           <a
-            href={event.eventLink}
+            href={event.eventlink}
             target="_blank"
             rel="noopener noreferrer"
             className={`w-full block text-center px-4 py-2 rounded-md transition-colors text-sm ${
@@ -286,7 +347,7 @@ const EventCard = ({ event, isPast = false }: EventCardProps) => {
               if (isPast) {
                 e.preventDefault();
               } else {
-                window.open(event.eventLink, "_blank", "noopener,noreferrer");
+                window.open(event.eventlink, "_blank", "noopener,noreferrer");
               }
             }}
           >

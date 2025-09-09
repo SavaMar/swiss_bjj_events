@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import Image from "next/image";
 import { HeartHandshake } from "lucide-react";
 
@@ -34,6 +34,7 @@ const translations = {
 export default function DonationPopup() {
   const [isVisible, setIsVisible] = useState(false);
   const params = useParams();
+  const pathname = usePathname();
   const lang = (params?.lang as string) || "en";
   const t = translations[lang as keyof typeof translations] || translations.en;
 
@@ -47,6 +48,11 @@ export default function DonationPopup() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Don't show popup on admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   if (!isVisible) return null;
 

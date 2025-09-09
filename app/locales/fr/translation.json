@@ -53,6 +53,9 @@
     },
     "grapplingindustries": {
       "description": "Une série de tournois internationaux avec un format unique de tournoi à la ronde. Connue pour ses événements bien organisés en Europe, en Amérique du Nord et en Australie."
+    },
+    "sjja": {
+      "description": "La Swiss Jiu-jitsu Association se consacre à la promotion et au développement du Jiu-Jitsu Brésilien en Suisse. Ils organisent des compétitions, des séminaires et des camps d'entraînement pour favoriser la croissance du sport dans le pays."
     }
   },
   "contact": {

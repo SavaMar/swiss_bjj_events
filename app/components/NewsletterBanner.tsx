@@ -1,15 +1,22 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "../context/LanguageContext";
 
 const NewsletterBanner = () => {
   const { language } = useLanguage();
   const [isMounted, setIsMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Don't show newsletter banner on admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   // Don't render anything on the server side
   if (!isMounted) {

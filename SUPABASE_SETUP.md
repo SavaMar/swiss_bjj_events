@@ -20,6 +20,7 @@ Create the "Event" table with the following columns:
 | id            | uuid      | uuid_generate_v4() | Yes         | Yes      | Unique identifier         |
 | name          | text      |                    | No          | Yes      | Event name                |
 | organizer     | text      |                    | No          | Yes      | Event organizer           |
+| organizerUrl  | text      |                    | No          | No       | Organizer website URL     |
 | registerUntil | date      |                    | No          | Yes      | Registration deadline     |
 | eventLink     | text      |                    | No          | Yes      | Registration link         |
 | logoUrl       | text      |                    | No          | No       | URL to event logo         |
@@ -30,6 +31,10 @@ Create the "Event" table with the following columns:
 | endDate       | date      |                    | No          | Yes      | Event end date            |
 | startTime     | text      |                    | No          | Yes      | Event start time          |
 | endTime       | text      |                    | No          | Yes      | Event end time            |
+| guest_name    | text      |                    | No          | No       | Guest instructor name     |
+| guest_link    | text      |                    | No          | No       | Guest instructor link     |
+| dojo_id       | text      |                    | No          | No       | Associated dojo ID        |
+| dojo_logo     | text      |                    | No          | No       | Dojo logo filename        |
 | created_at    | timestamp | now()              | No          | Yes      | Record creation timestamp |
 
 #### SQL for Creating the Events Table
@@ -39,6 +44,7 @@ CREATE TABLE "Event" (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name TEXT NOT NULL,
   organizer TEXT NOT NULL,
+  "organizerUrl" TEXT,
   "registerUntil" DATE NOT NULL,
   "eventLink" TEXT NOT NULL,
   "logoUrl" TEXT,
@@ -49,6 +55,10 @@ CREATE TABLE "Event" (
   "endDate" DATE NOT NULL,
   "startTime" TEXT NOT NULL,
   "endTime" TEXT NOT NULL,
+  "guest_name" TEXT,
+  "guest_link" TEXT,
+  "dojo_id" TEXT,
+  "dojo_logo" TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 ```
@@ -58,8 +68,8 @@ CREATE TABLE "Event" (
 To enforce validation on the `type` field, create an enum type and add a check constraint:
 
 ```sql
-CREATE TYPE event_type AS ENUM ('competition', 'womens', 'kids', 'open-mat', 'seminar');
-ALTER TABLE "Event" ADD CONSTRAINT event_type_check CHECK (type::event_type IN ('competition', 'womens', 'kids', 'open-mat', 'seminar'));
+CREATE TYPE event_type AS ENUM ('competition', 'womens', 'kids', 'open-mat', 'seminar', 'camp');
+ALTER TABLE "Event" ADD CONSTRAINT event_type_check CHECK (type::event_type IN ('competition', 'womens', 'kids', 'open-mat', 'seminar', 'camp'));
 ```
 
 ### Row Level Security Policies

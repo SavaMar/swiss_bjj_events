@@ -48,6 +48,12 @@ const getLocalizedFileName = (slug: string, language: string): string => {
       it: "regole-grapplingindustries",
       en: "grapplingindustries-rules",
     },
+    "sjja-rules": {
+      de: "sjja-regeln",
+      fr: "regles-sjja",
+      it: "regole-sjja",
+      en: "sjja-rules",
+    },
   };
 
   return slugMap[slug]?.[language] || slug;

@@ -4,17 +4,17 @@ import { useState, useEffect } from "react";
 import EventCard from "../components/EventCard";
 import Link from "next/link";
 import {
-  Event,
-  EventType,
+  NewEvent,
+  NewEventType,
   SwissCanton,
   SWISS_CANTON_NAMES,
-} from "../types/event";
+} from "../types/new-event";
 import { useLanguage } from "../context/LanguageContext";
 import { parseISO, isValid, parse } from "date-fns";
 import { supabase } from "../../lib/supabase";
 import { useParams } from "next/navigation";
 
-type FilterType = EventType | "all";
+type FilterType = NewEventType | "all";
 
 // Bilingual canton names for commonly used cantons
 const BILINGUAL_CANTON_NAMES: Partial<
@@ -27,11 +27,11 @@ const BILINGUAL_CANTON_NAMES: Partial<
 };
 
 // Normalize event type to handle case differences and other potential inconsistencies
-const normalizeEventType = (type: string): EventType => {
+const normalizeEventType = (type: string): NewEventType => {
   // Convert to lowercase and trim any whitespace
   const normalized = type.toLowerCase().trim();
 
-  // Map to valid EventType values
+  // Map to valid NewEventType values
   switch (normalized) {
     case "competition":
       return "competition";
@@ -87,7 +87,8 @@ const parseDate = (dateStr: string) => {
 };
 
 export default function Home() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<NewEvent[]>([]);
+  const [dojos, setDojos] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<FilterType>("all");
@@ -100,29 +101,70 @@ export default function Home() {
   const currentLang = params?.lang as string;
 
   useEffect(() => {
-    async function fetchEvents() {
+    async function fetchData() {
       try {
         setLoading(true);
-        const { data, error } = await supabase
-          .from("Event")
-          .select("*")
-          .order("startDate", { ascending: true });
 
-        if (error) {
-          throw error;
+        // Fetch events from new events table
+        const { data: eventsData, error: eventsError } = await supabase
+          .from("events")
+          .select("*")
+          .order("startdate", { ascending: true });
+
+        if (eventsError) {
+          throw eventsError;
         }
 
-        setEvents(data || []);
+        // Fetch dojos for address and website information
+        const { data: dojosData, error: dojosError } = await supabase
+          .from("Dojos")
+          .select("id, name, website, address, kanton");
+
+        if (dojosError) {
+          console.warn("Error fetching dojos:", dojosError);
+        }
+
+        setEvents(eventsData || []);
+        setDojos(dojosData || []);
       } catch (err) {
-        console.error("Error fetching events:", err);
+        console.error("Error fetching data:", err);
         setError(err instanceof Error ? err.message : "Failed to fetch events");
       } finally {
         setLoading(false);
       }
     }
 
-    fetchEvents();
+    fetchData();
   }, []);
+
+  // Helper function to get dojo information by ID
+  const getDojoById = (dojoId: number) => {
+    return dojos.find((dojo) => dojo.id === dojoId);
+  };
+
+  // Helper function to get event address (use dojo address if event address is empty)
+  const getEventAddress = (event: NewEvent) => {
+    if (event.address) {
+      return event.address;
+    }
+    if (event.organizer_dojo) {
+      const dojo = getDojoById(event.organizer_dojo);
+      return dojo?.address || "";
+    }
+    return "";
+  };
+
+  // Helper function to get organizer URL (use dojo website or organizerurl)
+  const getOrganizerUrl = (event: NewEvent) => {
+    if (event.organizerurl) {
+      return event.organizerurl;
+    }
+    if (event.organizer_dojo) {
+      const dojo = getDojoById(event.organizer_dojo);
+      return dojo?.website || "";
+    }
+    return "";
+  };
 
   // Get unique cantons from events for the dropdown
   const usedCantons = Array.from(
@@ -181,15 +223,15 @@ export default function Home() {
     .filter((event) => {
       // Show only current/future events unless includePastEvents is true
       if (!includePastEvents) {
-        return isCurrentOrFutureDate(event.startDate);
+        return isCurrentOrFutureDate(event.startdate);
       }
       // If includePastEvents is true, show all events
       return true;
     })
     .sort((a, b) => {
       try {
-        const dateA = parseDate(a.startDate);
-        const dateB = parseDate(b.startDate);
+        const dateA = parseDate(a.startdate);
+        const dateB = parseDate(b.startdate);
         if (isValid(dateA) && isValid(dateB)) {
           return dateA.getTime() - dateB.getTime();
         }
@@ -389,13 +431,26 @@ export default function Home() {
 
       {/* Events grid - updated to 4 columns on large screens */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredEvents.map((event) => (
-          <EventCard
-            key={event.id}
-            event={event}
-            isPast={isDateInPast(event.startDate)}
-          />
-        ))}
+        {filteredEvents.map((event) => {
+          const dojoInfo = event.organizer_dojo
+            ? getDojoById(event.organizer_dojo)
+            : null;
+          return (
+            <EventCard
+              key={event.id}
+              event={event}
+              isPast={isDateInPast(event.startdate)}
+              dojoInfo={
+                dojoInfo
+                  ? {
+                      website: dojoInfo.website,
+                      address: dojoInfo.address,
+                    }
+                  : undefined
+              }
+            />
+          );
+        })}
       </div>
 
       {filteredEvents.length === 0 && (

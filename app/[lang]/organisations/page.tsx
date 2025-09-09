@@ -67,6 +67,16 @@ const organizations: Organization[] = [
     instagramUrl: "https://www.instagram.com/grapplingindustries/",
     rulesUrl: "/organisations/grapplingindustries/rules",
   },
+  {
+    id: "sjja",
+    name: "SJJA (Swiss Jiu-jitsu Association)",
+    description:
+      "The Swiss Jiu-jitsu Association is dedicated to promoting and developing Brazilian Jiu-Jitsu throughout Switzerland. They organize competitions, seminars, and training camps to foster the growth of the sport in the country.",
+    logoUrl: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/SJJA.jpg",
+    websiteUrl: "", // No website available
+    instagramUrl: "https://www.instagram.com/swiss_jiujitsu_association/",
+    rulesUrl: "/organisations/sjja/rules",
+  },
 ];
 
 export default function OrganisationsPage() {
@@ -111,20 +121,29 @@ export default function OrganisationsPage() {
                   (org.id === "grapplingindustries" &&
                     translations?.organisations?.grapplingindustries
                       ?.description) ||
+                  (org.id === "sjja" &&
+                    (
+                      translations?.organisations as Record<
+                        string,
+                        { description?: string }
+                      >
+                    )?.sjja?.description) ||
                   org.description}
               </p>
 
               <div className="space-y-3 mt-auto">
-                <a
-                  href={org.websiteUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
-                >
-                  <ExternalLink size={16} className="mr-2" />
-                  {translations?.organisations?.visitWebsite ||
-                    "Visit Official Website"}
-                </a>
+                {org.websiteUrl && (
+                  <a
+                    href={org.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+                  >
+                    <ExternalLink size={16} className="mr-2" />
+                    {translations?.organisations?.visitWebsite ||
+                      "Visit Official Website"}
+                  </a>
+                )}
 
                 {org.instagramUrl && (
                   <a

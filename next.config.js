@@ -6,7 +6,11 @@ const nextConfig = {
   },
   // Configure allowed image domains with remotePatterns (more secure approach)
   images: {
-    domains: ["filedn.com", "web-api.textin.com"],
+    domains: [
+      "filedn.com",
+      "web-api.textin.com",
+      "yycgbavlnjadwpsynqhl.supabase.co",
+    ],
     remotePatterns: [
       {
         protocol: "https",
@@ -17,6 +21,11 @@ const nextConfig = {
         protocol: "https",
         hostname: "play-lh.googleusercontent.com",
         pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "yycgbavlnjadwpsynqhl.supabase.co",
+        pathname: "/storage/v1/object/public/events/**",
       },
     ],
   },
