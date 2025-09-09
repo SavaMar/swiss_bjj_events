@@ -9,7 +9,10 @@ import Link from "next/link";
 
 export default function SJJARulesPage() {
   const { language, translations } = useLanguage();
-  const [rule, setRule] = React.useState<any>(null);
+  const [rule, setRule] = React.useState<{
+    content: string;
+    frontmatter: Record<string, unknown>;
+  } | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
 

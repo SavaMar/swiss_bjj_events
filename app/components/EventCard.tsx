@@ -1,7 +1,7 @@
 "use client";
 
 import { NewEvent, NewEventType } from "../types/new-event";
-import { EventType, EVENT_TYPE_COLORS } from "../types/event";
+import { EVENT_TYPE_COLORS } from "../types/event";
 import { useLanguage } from "../context/LanguageContext";
 import { format, parseISO, parse, isValid } from "date-fns";
 import { de, fr, it } from "date-fns/locale";
@@ -81,18 +81,6 @@ const normalizeEventType = (type: string): NewEventType => {
 
 const EventCard = ({ event, isPast = false, dojoInfo }: EventCardProps) => {
   const { language, translations } = useLanguage();
-
-  // Base URL for all dojo logos
-  const logoBaseUrl = "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/";
-
-  // Construct the full logo URL
-  const getLogoUrl = (filename: string): string => {
-    if (!filename) return "";
-    // If it's already a full URL, return as is
-    if (filename.startsWith("http")) return filename;
-    // Otherwise append to the base URL
-    return `${logoBaseUrl}${filename}`;
-  };
 
   // Normalize the event type
   const normalizedType = normalizeEventType(event.type);

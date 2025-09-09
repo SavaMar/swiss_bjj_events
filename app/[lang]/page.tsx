@@ -88,7 +88,15 @@ const parseDate = (dateStr: string) => {
 
 export default function Home() {
   const [events, setEvents] = useState<NewEvent[]>([]);
-  const [dojos, setDojos] = useState<any[]>([]);
+  const [dojos, setDojos] = useState<
+    Array<{
+      id: number;
+      name: string;
+      website?: string;
+      address?: string;
+      kanton: string;
+    }>
+  >([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<FilterType>("all");
@@ -140,30 +148,6 @@ export default function Home() {
   // Helper function to get dojo information by ID
   const getDojoById = (dojoId: number) => {
     return dojos.find((dojo) => dojo.id === dojoId);
-  };
-
-  // Helper function to get event address (use dojo address if event address is empty)
-  const getEventAddress = (event: NewEvent) => {
-    if (event.address) {
-      return event.address;
-    }
-    if (event.organizer_dojo) {
-      const dojo = getDojoById(event.organizer_dojo);
-      return dojo?.address || "";
-    }
-    return "";
-  };
-
-  // Helper function to get organizer URL (use dojo website or organizerurl)
-  const getOrganizerUrl = (event: NewEvent) => {
-    if (event.organizerurl) {
-      return event.organizerurl;
-    }
-    if (event.organizer_dojo) {
-      const dojo = getDojoById(event.organizer_dojo);
-      return dojo?.website || "";
-    }
-    return "";
   };
 
   // Get unique cantons from events for the dropdown

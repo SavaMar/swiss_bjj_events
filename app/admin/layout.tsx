@@ -10,7 +10,6 @@ import {
   Menu,
   X,
   Home,
-  Users,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";

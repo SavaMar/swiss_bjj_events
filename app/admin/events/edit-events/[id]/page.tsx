@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { supabase } from "../../../../../lib/supabase";
 import { NewEvent, SWISS_CANTON_NAMES } from "../../../../types/new-event";
+import Image from "next/image";
 import { Session } from "@supabase/supabase-js";
 import { Dojo } from "../../../../types/dojo";
 
@@ -449,9 +450,11 @@ export default function EditEventsPage() {
             </label>
             {imagePreview && (
               <div className="mb-2">
-                <img
+                <Image
                   src={imagePreview}
                   alt="Current event image"
+                  width={128}
+                  height={128}
                   className="w-32 h-32 object-cover rounded"
                 />
                 <p className="text-xs text-gray-500 mt-1">Current image</p>
@@ -616,7 +619,7 @@ export default function EditEventsPage() {
               />
               {organizerType === "dojo" && (
                 <p className="text-xs text-gray-500 mt-1">
-                  If left empty, will use the selected dojo's address
+                  If left empty, will use the selected dojo&apos;s address
                 </p>
               )}
             </div>

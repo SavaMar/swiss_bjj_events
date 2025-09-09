@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../../../lib/supabase";
 import { Dojo } from "../../types/dojo";
 import { SWISS_CANTON_NAMES } from "../../types/new-event";
@@ -65,7 +65,7 @@ export default function DojosPage() {
     }
   }
 
-  function filterDojos() {
+  const filterDojos = useCallback(() => {
     let filtered = dojos;
 
     // Filter by search term (name)
@@ -81,7 +81,7 @@ export default function DojosPage() {
     }
 
     setFilteredDojos(filtered);
-  }
+  }, [dojos, searchTerm, selectedCanton]);
 
   // Get unique cantons for filter dropdown
   const uniqueCantons = Array.from(
@@ -285,7 +285,7 @@ export default function DojosPage() {
                   {dojo.is_womans && (
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-pink-100 text-pink-800">
                       <Users className="h-3 w-3 mr-1" />
-                      Women's
+                      Women&apos;s
                     </span>
                   )}
                   {dojo.is_kids && (

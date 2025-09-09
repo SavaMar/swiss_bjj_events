@@ -18,11 +18,6 @@ export default function NewsletterWrapper() {
   const [showDebugIndicator, setShowDebugIndicator] = useState(true);
   const pathname = usePathname();
 
-  // Don't show newsletter popup on admin routes
-  if (pathname?.startsWith("/admin")) {
-    return null;
-  }
-
   useEffect(() => {
     console.log("NewsletterWrapper mounted");
     setMounted(true);
@@ -38,6 +33,11 @@ export default function NewsletterWrapper() {
   useEffect(() => {
     console.log("Mounted state changed:", mounted);
   }, [mounted]);
+
+  // Don't show newsletter popup on admin routes
+  if (pathname?.startsWith("/admin")) {
+    return null;
+  }
 
   // Only render the popup on the client side
   if (!mounted) {

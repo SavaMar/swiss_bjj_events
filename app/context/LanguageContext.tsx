@@ -132,7 +132,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     };
 
     loadInitialTranslations();
-  }, []);
+  }, [initialLanguage]);
 
   // Effect to detect language from URL path - only run on client
   useEffect(() => {
