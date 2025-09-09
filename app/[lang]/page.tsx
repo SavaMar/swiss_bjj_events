@@ -265,14 +265,16 @@ export default function Home() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold">{translations?.events?.title}</h1>
-        <div className="flex space-x-2">
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
+        <h1 className="text-2xl sm:text-3xl font-bold">
+          {translations?.events?.title}
+        </h1>
+        <div className="flex flex-col sm:flex-row gap-2">
           <a
             href="https://forms.gle/YJeddwAdLj9p6uNg9"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors text-sm sm:text-base"
             aria-label="Add event"
           >
             <svg
@@ -285,18 +287,18 @@ export default function Home() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="mr-2"
+              className="mr-2 flex-shrink-0"
             >
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
-            <span className="sm:inline">
+            <span className="truncate">
               {translations?.events?.addEvent || "Add Event"}
             </span>
           </a>
           <Link
             href={`/${currentLang}/calendar`}
-            className="inline-flex items-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700 transition-colors text-sm sm:text-base"
             aria-label="View calendar"
           >
             <svg
@@ -309,14 +311,14 @@ export default function Home() {
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="mr-2"
+              className="mr-2 flex-shrink-0"
             >
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
               <line x1="16" y1="2" x2="16" y2="6"></line>
               <line x1="8" y1="2" x2="8" y2="6"></line>
               <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
-            <span className="sm:inline">
+            <span className="truncate">
               {translations?.events?.calendarView || "Calendar View"}
             </span>
           </Link>
@@ -324,78 +326,87 @@ export default function Home() {
       </div>
 
       {/* Filter buttons */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        <button
-          onClick={() => setSelectedType("all")}
-          className={`px-4 py-2 rounded-md ${
-            selectedType === "all"
-              ? "bg-gray-900 text-white"
-              : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-          }`}
-        >
-          {translations?.events?.filter?.all}
-        </button>
-        {(
-          [
-            "womens",
-            "open-mat",
-            "competition",
-            "seminar",
-            "kids",
-            "camp",
-          ] as EventType[]
-        ).map((type) => (
+      <div className="space-y-4 mb-4">
+        {/* Main filter buttons */}
+        <div className="flex flex-wrap gap-2">
           <button
-            key={type}
-            onClick={() => setSelectedType(type)}
-            className={`px-4 py-2 rounded-md ${
-              selectedType === type
+            onClick={() => setSelectedType("all")}
+            className={`px-3 py-2 rounded-md text-sm whitespace-nowrap ${
+              selectedType === "all"
                 ? "bg-gray-900 text-white"
                 : "bg-gray-100 text-gray-800 hover:bg-gray-200"
             }`}
           >
-            {translations?.events?.filter?.[type] ||
-              type.charAt(0).toUpperCase() + type.slice(1).replace("-", " ")}
+            {translations?.events?.filter?.all}
           </button>
-        ))}
+          {(
+            [
+              "womens",
+              "open-mat",
+              "competition",
+              "seminar",
+              "kids",
+              "camp",
+            ] as EventType[]
+          ).map((type) => (
+            <button
+              key={type}
+              onClick={() => setSelectedType(type)}
+              className={`px-3 py-2 rounded-md text-sm whitespace-nowrap ${
+                selectedType === type
+                  ? "bg-gray-900 text-white"
+                  : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+              }`}
+            >
+              {translations?.events?.filter?.[type] ||
+                type.charAt(0).toUpperCase() + type.slice(1).replace("-", " ")}
+            </button>
+          ))}
+        </div>
 
-        {/* Calendar view button - desktop only */}
-        <Link
-          href={`/${currentLang}/calendar`}
-          className="hidden md:flex px-4 py-2 rounded-md bg-blue-100 text-blue-800 hover:bg-blue-200 items-center"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-4 w-4 mr-1"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+        {/* Secondary buttons row */}
+        <div className="flex flex-wrap gap-2 justify-between items-center">
+          {/* Calendar view button - desktop only */}
+          <Link
+            href={`/${currentLang}/calendar`}
+            className="hidden md:flex px-3 py-2 rounded-md bg-blue-100 text-blue-800 hover:bg-blue-200 items-center text-sm"
           >
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-            <line x1="16" y1="2" x2="16" y2="6"></line>
-            <line x1="8" y1="2" x2="8" y2="6"></line>
-            <line x1="3" y1="10" x2="21" y2="10"></line>
-          </svg>
-          {translations?.events?.calendarView || "Calendar View"}
-        </Link>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4 mr-1 flex-shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span className="truncate">
+              {translations?.events?.calendarView || "Calendar View"}
+            </span>
+          </Link>
 
-        {/* Toggle for past events */}
-        <button
-          onClick={() => setIncludePastEvents(!includePastEvents)}
-          className={`px-4 py-2 rounded-md ml-auto ${
-            includePastEvents
-              ? "bg-blue-600 text-white"
-              : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-          }`}
-        >
-          {includePastEvents
-            ? translations?.events?.filter?.hidePastEvents || "Hide Past Events"
-            : translations?.events?.filter?.includingPastEvents ||
-              "Show Past Events"}
-        </button>
+          {/* Toggle for past events */}
+          <button
+            onClick={() => setIncludePastEvents(!includePastEvents)}
+            className={`px-3 py-2 rounded-md text-sm whitespace-nowrap ${
+              includePastEvents
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+            }`}
+          >
+            {includePastEvents
+              ? translations?.events?.filter?.hidePastEvents ||
+                "Hide Past Events"
+              : translations?.events?.filter?.includingPastEvents ||
+                "Show Past Events"}
+          </button>
+        </div>
       </div>
 
       {/* Canton filter dropdown - only showing cantons with events */}
@@ -403,7 +414,7 @@ export default function Home() {
         <div className="mb-8">
           <label
             htmlFor="canton-filter"
-            className="block text-sm font-medium text-gray-700 mb-1"
+            className="block text-sm font-medium text-gray-700 mb-2"
           >
             {translations?.events?.filter?.byCantonLabel || "Filter by Canton:"}
           </label>
@@ -414,7 +425,7 @@ export default function Home() {
               onChange={(e) =>
                 setSelectedCanton(e.target.value as SwissCanton | "all")
               }
-              className="block w-full max-w-xs rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="block w-full sm:max-w-xs rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 text-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500"
             >
               <option value="all">
                 {translations?.events?.filter?.allCantons || "All Cantons"}
