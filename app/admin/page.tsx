@@ -6,6 +6,7 @@ import { NewEvent } from "../types/new-event";
 import { format, parse, parseISO, isValid } from "date-fns";
 import Link from "next/link";
 import { Calendar, MapPin, Users, TrendingUp, Plus, Edit } from "lucide-react";
+import { isAdminEmail } from "../config/admin";
 
 export default function AdminPage() {
   const [events, setEvents] = useState<NewEvent[]>([]);
@@ -16,18 +17,20 @@ export default function AdminPage() {
   const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState<string | null>(null);
 
-  // Check if user is logged in
+  // Check if user is logged in and is admin
   useEffect(() => {
     const checkSession = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      setSession(session);
-      setLoading(false);
 
-      if (session) {
+      if (isAdminEmail(session?.user?.email)) {
+        setSession(session);
         fetchEvents();
+      } else {
+        setSession(null);
       }
+      setLoading(false);
     };
 
     checkSession();
@@ -66,12 +69,18 @@ export default function AdminPage() {
         throw error;
       }
 
-      if (data.session) {
+      // Check if the logged-in user is the admin
+      if (isAdminEmail(data.session?.user?.email)) {
         setSession(data.session);
         fetchEvents();
+      } else {
+        // Sign out the user if they're not admin
+        await supabase.auth.signOut();
+        setLoginError("Access denied. Only admin users can access this area.");
       }
-    } catch {
-      setLoginError("Login failed");
+    } catch (error) {
+      console.error("Login error:", error);
+      setLoginError("Login failed. Please check your credentials.");
     } finally {
       setLoading(false);
     }
@@ -121,7 +130,7 @@ export default function AdminPage() {
               Admin Login
             </h2>
             <p className="mt-2 text-center text-sm text-gray-600">
-              Sign in to access the admin dashboard
+              Sign in with your admin credentials
             </p>
           </div>
 
