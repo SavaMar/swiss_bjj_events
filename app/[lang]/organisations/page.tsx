@@ -77,6 +77,16 @@ const organizations: Organization[] = [
     instagramUrl: "https://www.instagram.com/swiss_jiujitsu_association/",
     rulesUrl: "/organisations/sjja/rules",
   },
+  {
+    id: "ibjjf",
+    name: "IBJJF (International Brazilian Jiu-Jitsu Federation)",
+    description:
+      "The International Brazilian Jiu-Jitsu Federation is the largest and most prestigious BJJ organization in the world. IBJJF organizes major tournaments including the World Championships, Pan Championships, and European Championships.",
+    logoUrl: "https://filedn.com/lPmOLyYLDG0bQGSveFAL3WB/bjj%20logos/ibjf.png",
+    websiteUrl: "https://ibjjf.com/",
+    instagramUrl: "https://www.instagram.com/ibjjf/",
+    rulesUrl: "https://ibjjf.com/books-videos", // External link to IBJJF rules
+  },
 ];
 
 export default function OrganisationsPage() {
@@ -128,6 +138,13 @@ export default function OrganisationsPage() {
                         { description?: string }
                       >
                     )?.sjja?.description) ||
+                  (org.id === "ibjjf" &&
+                    (
+                      translations?.organisations as Record<
+                        string,
+                        { description?: string }
+                      >
+                    )?.ibjjf?.description) ||
                   org.description}
               </p>
 
@@ -137,7 +154,7 @@ export default function OrganisationsPage() {
                     href={org.websiteUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors"
+                    className="flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-md transition-colors"
                   >
                     <ExternalLink size={16} className="mr-2" />
                     {translations?.organisations?.visitWebsite ||
@@ -150,7 +167,7 @@ export default function OrganisationsPage() {
                     href={org.instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-md transition-colors"
+                    className="flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-md transition-colors"
                   >
                     <Instagram size={16} className="mr-2" />
                     {translations?.organisations?.followInstagram ||
@@ -158,14 +175,27 @@ export default function OrganisationsPage() {
                   </a>
                 )}
 
-                <Link
-                  href={`/${language}${org.rulesUrl}`}
-                  className="flex items-center justify-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md transition-colors"
-                >
-                  <Book size={16} className="mr-2" />
-                  {translations?.organisations?.viewRules ||
-                    "View Competition Rules"}
-                </Link>
+                {org.rulesUrl.startsWith("http") ? (
+                  <a
+                    href={org.rulesUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-md transition-colors"
+                  >
+                    <Book size={16} className="mr-2" />
+                    {translations?.organisations?.viewRules ||
+                      "View Competition Rules"}
+                  </a>
+                ) : (
+                  <Link
+                    href={`/${language}${org.rulesUrl}`}
+                    className="flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white rounded-md transition-colors"
+                  >
+                    <Book size={16} className="mr-2" />
+                    {translations?.organisations?.viewRules ||
+                      "View Competition Rules"}
+                  </Link>
+                )}
               </div>
             </div>
           </div>

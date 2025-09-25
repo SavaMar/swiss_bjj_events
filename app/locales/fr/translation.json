@@ -56,6 +56,9 @@
     },
     "sjja": {
       "description": "La Swiss Jiu-jitsu Association se consacre à la promotion et au développement du Jiu-Jitsu Brésilien en Suisse. Ils organisent des compétitions, des séminaires et des camps d'entraînement pour favoriser la croissance du sport dans le pays."
+    },
+    "ibjjf": {
+      "description": "La Fédération Internationale de Jiu-Jitsu Brésilien est la plus grande et prestigieuse organisation de BJJ au monde. L'IBJJF organise des tournois majeurs incluant les Championnats du Monde, les Championnats Pan et les Championnats Européens."
     }
   },
   "contact": {
@@ -73,7 +76,12 @@
     "emailLabel": "E-mail",
     "subjectLabel": "Sujet",
     "messageLabel": "Message",
-    "submitButton": "Envoyer le message"
+    "submitButton": "Envoyer le message",
+    "validation": {
+      "nameTooShort": "Le nom doit contenir au moins 3 caractères",
+      "invalidEmail": "Veuillez saisir une adresse e-mail valide",
+      "messageTooShort": "Le message doit contenir au moins 30 caractères"
+    }
   },
   "dojos": {
     "title": "Dojos Swiss BJJ",

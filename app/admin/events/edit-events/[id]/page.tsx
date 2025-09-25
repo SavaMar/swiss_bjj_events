@@ -52,6 +52,10 @@ export default function EditEventsPage() {
     },
     { id: "grapplingindustries", name: "Grappling Industries" },
     { id: "sjja", name: "SJJA (Swiss Jiu-jitsu Association)" },
+    {
+      id: "ibjjf",
+      name: "IBJJF (International Brazilian Jiu-Jitsu Federation)",
+    },
     { id: "other", name: "Other" },
   ];
 

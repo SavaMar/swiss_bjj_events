@@ -3,19 +3,29 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Calendar } from "@/components/ui/calendar";
-import { Event, EVENT_TYPE_COLORS, EventType } from "../../types/event";
+import { NewEvent, NewEventType } from "../../types/new-event";
 import { useLanguage } from "../../context/LanguageContext";
 import { format, parseISO, isValid, parse } from "date-fns";
 import { ChevronLeft } from "lucide-react";
 import { supabase } from "../../../lib/supabase";
 import Image from "next/image";
 
+// Event type colors mapping
+const EVENT_TYPE_COLORS: Record<NewEventType, string> = {
+  competition: "bg-red-100 text-red-800",
+  "open-mat": "bg-green-100 text-green-800",
+  womens: "bg-pink-100 text-pink-800",
+  seminar: "bg-cyan-100 text-cyan-800",
+  kids: "bg-amber-100 text-amber-500",
+  camp: "bg-purple-100 text-purple-800",
+};
+
 export default function CalendarView() {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<NewEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
-  const [dayEvents, setDayEvents] = useState<Event[]>([]);
+  const [dayEvents, setDayEvents] = useState<NewEvent[]>([]);
   const { translations } = useLanguage();
 
   // Base URL for all dojo logos
@@ -31,7 +41,7 @@ export default function CalendarView() {
   };
 
   // Normalize event type to handle case differences
-  const normalizeEventType = (type: string): EventType => {
+  const normalizeEventType = (type: string): NewEventType => {
     // Convert to lowercase and trim any whitespace
     const normalized = type.toLowerCase().trim();
 
@@ -91,8 +101,8 @@ export default function CalendarView() {
   };
 
   // Function to check if an event is on a specific date
-  const isEventOnDate = (event: Event, date: Date) => {
-    const eventStartDate = parseDate(event.startDate);
+  const isEventOnDate = (event: NewEvent, date: Date) => {
+    const eventStartDate = parseDate(event.startdate);
 
     return (
       date.getDate() === eventStartDate.getDate() &&
@@ -130,9 +140,9 @@ export default function CalendarView() {
       try {
         setLoading(true);
         const { data, error } = await supabase
-          .from("Event")
+          .from("events")
           .select("*")
-          .order("startDate", { ascending: true });
+          .order("startdate", { ascending: true });
 
         if (error) {
           throw error;
@@ -250,14 +260,14 @@ export default function CalendarView() {
                 {dayEvents.length > 0 ? (
                   <div className="space-y-4">
                     {dayEvents.map((event) => {
-                      const isPast = isDateInPast(event.startDate);
+                      const isPast = isDateInPast(event.startdate);
                       const normalizedType = normalizeEventType(event.type);
                       const typeColorClass =
                         EVENT_TYPE_COLORS[normalizedType] ||
                         "bg-gray-100 text-gray-800";
-                      const logoUrl = event.dojo_logo
-                        ? getLogoUrl(event.dojo_logo)
-                        : event.logoUrl;
+                      const logoUrl = event.event_img
+                        ? getLogoUrl(event.event_img)
+                        : "";
 
                       return (
                         <div
@@ -279,32 +289,32 @@ export default function CalendarView() {
                               : "#e5e7eb",
                           }}
                         >
-                          {/* Logo Section - 20% width */}
-                          <div className="w-1/5 min-w-[60px] bg-gray-50 flex items-center justify-center p-2">
+                          {/* Logo Section - 25% width */}
+                          <div className="w-1/4 min-w-[80px] bg-gray-50 relative">
                             {logoUrl ? (
-                              <div className="relative w-full h-12 overflow-hidden">
+                              <div className="relative w-full h-full min-h-[120px]">
                                 <Image
                                   src={logoUrl}
                                   alt={event.organizer}
                                   fill
-                                  sizes="80px"
-                                  className="object-contain"
+                                  sizes="150px"
+                                  className="object-cover"
                                   onError={(e) => {
-                                    // Hide the image on error
+                                    // Hide the image on error and show fallback
                                     const target = e.target as HTMLImageElement;
                                     target.style.display = "none";
                                   }}
                                 />
                               </div>
                             ) : (
-                              <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-400">
+                              <div className="absolute inset-0 flex items-center justify-center bg-gray-200 text-gray-400 font-semibold text-lg">
                                 BJJ
                               </div>
                             )}
                           </div>
 
-                          {/* Information Section - 80% width */}
-                          <div className="w-4/5 p-4">
+                          {/* Information Section - 75% width */}
+                          <div className="w-3/4 p-4">
                             <h3 className="font-bold text-gray-900">
                               {event.name}
                             </h3>
@@ -318,7 +328,7 @@ export default function CalendarView() {
                                 ] || normalizedType}
                               </span>
                               <span className="text-xs text-gray-600">
-                                {event.startTime} - {event.endTime}
+                                {event.starttime} - {event.endtime}
                               </span>
                             </div>
 
@@ -335,7 +345,7 @@ export default function CalendarView() {
 
                             {!isPast ? (
                               <a
-                                href={event.eventLink}
+                                href={event.eventlink}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="inline-block px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
