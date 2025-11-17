@@ -140,9 +140,7 @@ export default function PhotosPage() {
             <div className="flex flex-col sm:flex-row items-center gap-4 p-5 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
               <div className="text-center sm:text-left w-full sm:w-auto">
                 <h3 className="font-bold text-lg text-gray-900 mb-2">TWINT</h3>
-                <p className="text-gray-700 text-lg font-mono">
-                  +41 79 895 14 266
-                </p>
+                <p className="text-gray-700 text-lg font-mono">0789514266</p>
               </div>
             </div>
 
