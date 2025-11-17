@@ -43,9 +43,14 @@ export default function PhotosPage() {
 
   const handleSubmit = () => {
     if (checkInput()) {
-      // Redirect to pCloud link
-      window.location.href =
-        "https://u.pcloud.link/publink/show?code=kZzweg5ZuVrmixJ4xN8jq19KtUTwwX9vWheV";
+      // Open pCloud link in a new tab
+      window.open(
+        "https://u.pcloud.link/publink/show?code=kZzweg5ZuVrmixJ4xN8jq19KtUTwwX9vWheV",
+        "_blank",
+        "noopener,noreferrer"
+      );
+      // Close the modal after opening the link
+      handleCloseModal();
     } else {
       setError(
         "Please type 'I understand' in Portuguese, French, German, or English"
